@@ -1,0 +1,6 @@
+type User {
+  id: ID! @unique
+  firstname: String
+  lastname: String
+  batch: String
+}
