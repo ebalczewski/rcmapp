@@ -5,7 +5,10 @@ const port = 3000;
 
 var user = require('./models.js');
 
+var counter = 0;
 const server = http.createServer(async (req, res) => {
+  counter++;
+  console.log(req.url);
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
 

@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>Hello World</title>
+  </head>
+  <body>
+    <p id="foobar">No names yet!</p>
+    <script>
+      fetch("http://localhost:3000", {mode: 'no-cors'}).then(names => {
+        console.log(names.text());
+        document.getElementById("foobar").innerHTML = names.text();
+      })
+    </script>
+  </body>
+</html>
