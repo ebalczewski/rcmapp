@@ -3,12 +3,15 @@
     <title>Hello World</title>
   </head>
   <body>
-    <p id="foobar">No names yet!</p>
+    <p id="displayNames">No names yet!</p>
     <script>
-      fetch("http://localhost:3000", {mode: 'no-cors'}).then(names => {
-        console.log(names.text());
-        document.getElementById("foobar").innerHTML = names.text();
+      fetch("http://localhost:3000/users").then(names => {
+        return names.text()
+      }).then(namesText => {
+        document.getElementById("displayNames").innerHTML = namesText;
       })
+
     </script>
+    <p>Other text!</p>
   </body>
 </html>
