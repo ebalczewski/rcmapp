@@ -28,14 +28,12 @@ const User = sequelize.define('user', {
 module.exports = User;
 
 // force: true will drop the table if it already exists
-// User.sync();
-
-//.then(() => {
+/*User.sync().then(() => {
   // Table created
-  //return User.create({
-    // firstName: 'John',
-    //lastName: 'Hancock',
-    //email: 'john@hanckock.com',
-    //batch: 'W1865',
-//  });
-//});
+  return User.create({
+		firstName: 'John',
+  	lastName: 'Hancock',
+  	email: 'john@hanckock.com',
+  	batch: 'W1865',
+	});
+});*/
