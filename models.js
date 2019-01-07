@@ -25,8 +25,36 @@ const User = sequelize.define('user', {
   },
 });
 
-module.exports = User;
+const Address = sequelize.define('address', {
+  streetAddress1: {
+    type: Sequelize.STRING
+  },
+  streetAddress2: {
+    type: Sequelize.STRING,
+    allowsNull: true,
+    defaultValue: null
+  },
+  city: {
+    type: Sequelize.STRING,
+  },
+  state: {
+    type: Sequelize.STRING,
+  },
+  zip: {
+    type: Sequelize.STRING,
+  },
+  country: {
+    type: Sequelize.STRING,
+  }
+});
 
+User.belongsToMany(Address, {through: 'UserAddress'});
+Address.belongsToMany(User, {through: 'UserAddress'});
+
+
+sequelize.sync()
+
+module.exports = User;
 // force: true will drop the table if it already exists
 /*User.sync().then(() => {
   // Table created
