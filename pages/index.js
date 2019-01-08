@@ -10,6 +10,11 @@ method on MapContainer so that it retrieves data from our database.
 import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
+//var models = require('../models.js');
+//var user = models.User;
+//var address = models.Address;
+// import {User, Address} from '../models.js';
+
 export class MapContainer extends React.Component {
     constructor(props) {
         super(props)
@@ -34,18 +39,17 @@ export class MapContainer extends React.Component {
         /* Here we fetch markers from our database instead of declaring an
         arbitrary array. */
         let markers = []
-        markers.push(
-            <Marker onClick={this.onMarkerClick}
-                    title={'The marker`s title will appear as a tooltip.'}
-                    name={'SOMA'}
-                    position={{lat: 37.778519, lng: -122.405640}}
-            />
-        )
-        markers.push(
-            <Marker onClick={this.onMarkerClick}
-                    name={'Dolores park'}
-                    position={{lat: 37.759703, lng: -122.428093}} />
-        )
+
+        fetch("http://localhost:4000/users")
+		.then((resp) => resp.json())
+		.then(users => {
+            markers.push(
+                <Marker onClick={this.onMarkerClick}
+                        name={users[0].firstName}
+                        position={{lat: 37.759703, lng: -122.428093}} />
+            )
+        })
+
         return markers
     }
 

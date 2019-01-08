@@ -4,6 +4,7 @@
   "description": "## Functionality",
   "main": "app.js",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "google-maps-react": "^2.0.2",
     "next": "^7.0.2",

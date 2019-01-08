@@ -1,19 +1,26 @@
+// TODO: Why can't we use "import" instead of require?
+
+var { User, Address } = require("./models.js");
+
+const cors = require('cors')
 const express = require('express')
 const app = express();
-const port = 3000;
+const port = 4000;
 
-var user = require('./models.js');
+app.use(cors())
 
-app.get('/users', function (req, res) {
-	user.findAll().then(function(users) {
-		var allNames = '';
-		for (let result of users) {
-			allNames = allNames + result.lastName;
-		}
-		res.send(allNames);
+app.get('/addresses', function(req, res){
+	Address.findAll().then(function(addresses) {
+		res.json(addresses);
 	});
 });
 
-app.use(express.static('static'));
+app.get('/users', function (req, res) {
+	User.findAll().then(function(users) {
+		res.json(users);
+	});
+});
+
+//app.use(express.static('static'));
 
 app.listen(port, () => console.log(`Serving on port ${port}.`))

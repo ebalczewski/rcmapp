@@ -51,10 +51,16 @@ const Address = sequelize.define('address', {
 User.belongsToMany(Address, {through: 'UserAddress'});
 Address.belongsToMany(User, {through: 'UserAddress'});
 
-
 sequelize.sync()
 
-module.exports = User;
+module.exports = {
+  User,
+  Address
+}
+// module.exports = {
+//   User,
+//   Address
+// }
 // force: true will drop the table if it already exists
 /*User.sync().then(() => {
   // Table created
