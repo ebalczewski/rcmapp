@@ -1,0 +1,31 @@
+{
+  "name": "rcmapp",
+  "version": "1.0.0",
+  "description": "## Functionality",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "google-maps-react": "^2.0.2",
+    "next": "^7.0.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "sequelize": "^4.42.0",
+    "sqlite3": "^4.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ebalczewski/rcmapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ebalczewski/rcmapp/issues"
+  },
+  "homepage": "https://github.com/ebalczewski/rcmapp#readme"
+}
