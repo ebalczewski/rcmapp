@@ -6,4 +6,8 @@ RC people, on maps!
 
 ## Technologies
 
-Node, Prisma (Postgresql)
+Node
+React
+Next
+Express
+Sequelize (SQLite)
