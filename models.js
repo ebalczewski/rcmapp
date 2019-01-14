@@ -45,7 +45,16 @@ const Address = sequelize.define('address', {
   },
   country: {
     type: Sequelize.STRING,
-  }
+  },
+  latitude: {
+    type: Sequelize.DECIMAL(16)
+  },
+  longitude: {
+    type: Sequelize.DECIMAL(16)
+  },
+  radius: {
+    type: Sequelize.INTEGER, 
+  },
 });
 
 User.belongsToMany(Address, {through: 'UserAddress'});

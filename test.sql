@@ -20,6 +20,9 @@ INSERT INTO addresses (
     state,
     zip,
     country,
+    latitude,
+    longitude,
+    radius,
     createdAt,
     updatedAt
 ) VALUES (
@@ -28,6 +31,9 @@ INSERT INTO addresses (
     "New York",
     "10001",
     "USA",
+    "40.7484",
+    "73.9857",
+    "500",
     "date",
     "date2"
 );
