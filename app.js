@@ -36,6 +36,9 @@ app.post('/users', function(req, res) {
 	res.send(' ');
 });
 
+app.post('/createUser', function(req, res) {
+	User.create(req.body);
+})
 
 app.get('/users/:userId/addresses/coordinates/', function (req, res) {
 	let userId = req.params.userId;

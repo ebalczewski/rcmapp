@@ -9,6 +9,7 @@ method on MapContainer so that it retrieves data from our database.
 */
 import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import FormContainer from './FormContainer';
 
 export class MapContainer extends React.Component {
     constructor(props) {
@@ -23,8 +24,9 @@ export class MapContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchData()
+        //this.fetchData()
     }
+    
     onMarkerClick(props, marker) {
         this.setState({
             activeMarker: marker,
@@ -60,17 +62,21 @@ export class MapContainer extends React.Component {
         );
     }
     render() {
-        const {selectedPlace} = this.state;
-        return (
-            <Map google={this.props.google} zoom={14}>
-                {this.state.markers}
-                <InfoWindow
-                    marker={this.state.activeMarker}
-                    visible={this.state.showingInfoWindow}>
-                    {this.renderSelectedPlace()}
-                </InfoWindow>
-            </Map>
+        return(
+            <FormContainer />
         );
+
+        // const {selectedPlace} = this.state;
+        // return (
+        //     <Map google={this.props.google} zoom={14}>
+        //         {this.state.markers}
+        //         <InfoWindow
+        //             marker={this.state.activeMarker}
+        //             visible={this.state.showingInfoWindow}>
+        //             {this.renderSelectedPlace()}
+        //         </InfoWindow>
+        //     </Map>
+        // );
     }
 }
 
