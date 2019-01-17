@@ -31,10 +31,6 @@ function getById(model, id) {
 };
 
 // curl -d '{"MyKey":"My Value"}' -H "Content-Type: application/json" http://127.0.0.1:4000/users
-app.post('/users', function(req, res) {
-	User.create(req.body);
-	res.send(' ');
-});
 
 app.post('/createUser', function(req, res) {
 	User.create(req.body);

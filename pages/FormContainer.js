@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import TextBox from "../components/TextBox"
 import Button from "../components/Button"
+import SelectBox from '../components/SelectBox';
 
 class FormContainer extends Component {
     constructor(props) {
@@ -9,12 +10,13 @@ class FormContainer extends Component {
 
         this.state = {
             newUser: {
-                email: '',
-                firstName: '',
-                lastName: '',
-                batch: '',
-            }
-            //batch options -> pull down
+                email: "",
+                firstName: "",
+                lastName: "",
+                batch: "",
+            },
+
+            batchOptions : ["W1 18", "W2 19"]
         }
     }
 
@@ -22,20 +24,18 @@ class FormContainer extends Component {
         (event).preventDefault();
         let userData = this.state.newUser;
 
-        console.log(JSON.stringify(userData));
-
-        // fetch("http://localhost:4000/createUser",{
-        //     method: "POST",
-        //     body: JSON.stringify(userData),
-        //     headers: {
-        //         'Accept': "application",
-        //         'Content-Type' : "application/json"
-        //     }
-        // }).then(response => {
-        //     response.json().then(data => {
-        //         console.log("Successful" + data);
-        //     })
-        // })
+        fetch("http://localhost:4000/createUser",{
+            method: "POST",
+            body: JSON.stringify(userData),
+            headers: {
+                'Accept': "application",
+                'Content-Type' : "application/json"
+            }
+        }).then(response => {
+            response.json().then(data => {
+                console.log("Successful" + data);
+            })
+        })
 
         console.log("submit");
     }
@@ -56,6 +56,7 @@ class FormContainer extends Component {
     }
 
     render() {
+        
         return(
             <form onSubmit={this.handleFormSubmit}>
                 <TextBox 
@@ -79,10 +80,10 @@ class FormContainer extends Component {
                     placeholder = {"Email"}
                     handleChange = {this.handleInput}/>
 
-                    <TextBox 
-                    type = {'text'}
+                    <SelectBox 
                     name = {'batch'}
-                    value = {this.state.newUser.name}
+                    options = {this.state.batchOptions}
+                    value = {this.state.newUser.batch}
                     placeholder = {"Batch"}
                     handleChange = {this.handleInput}/>
 
