@@ -1,3 +1,7 @@
+DELETE FROM users;
+DELETE FROM addresses;
+DELETE FROM UserAddress;
+
 INSERT INTO users (
     email,
     firstName,
@@ -15,6 +19,7 @@ INSERT INTO users (
 );
 
 INSERT INTO addresses (
+    current,
     streetAddress1,
     city,
     state,
@@ -26,6 +31,7 @@ INSERT INTO addresses (
     createdAt,
     updatedAt
 ) VALUES (
+    "true",
     "20 W 34th St",
     "New York",
     "New York",

@@ -8,6 +8,7 @@ const app = express();
 const port = 4000;
 
 app.use(cors())
+app.use(express.json());
 
 app.get('/addresses', function(req, res){
 	Address.findAll().then(function(addresses) {
@@ -27,13 +28,22 @@ function getById(model, id) {
 			id: id
 		}
 	})
-}
+};
+
+// curl -d '{"MyKey":"My Value"}' -H "Content-Type: application/json" http://127.0.0.1:4000/users
+app.post('/users', function(req, res) {
+	User.create(req.body);
+	res.send(' ');
+});
+
 
 app.get('/users/:userId/addresses/coordinates/', function (req, res) {
 	let userId = req.params.userId;
 
 	getById(User, userId).then(function(user) {
 		user.getAddresses().then(function(addresses) {
+
+			//what to do about multiple addresses? have a "current" tag?
 			res.json({latitude: addresses[0].latitude, 
 					longitude: addresses[0].longitude});
 		})
@@ -42,7 +52,8 @@ app.get('/users/:userId/addresses/coordinates/', function (req, res) {
 
 
 //latitudes and longitudes within a range
-//
+//everything by user
+//user preferences
 
 //app.use(express.static('static'));
 

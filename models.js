@@ -6,32 +6,35 @@ const sequelize = new Sequelize('sqlite:rcmapp.db');
 const User = sequelize.define('user', {
   email: {
      type: Sequelize.STRING,
-     unique: true,
+     allowNull: false,
   },
   firstName: {
     type: Sequelize.STRING,
-    allowsNull: true,
+    allowNull: true,
     defaultValue: null,
   },
   lastName: {
     type: Sequelize.STRING,
-    allowsNull: true,
+    allowNull: true,
     defaultValue: null,
   },
   batch: {
     type: Sequelize.STRING,
-    allowsNull: true,
+    allowNull: true,
     defaultValue: null
   },
 });
 
 const Address = sequelize.define('address', {
+  current: {
+    type: Sequelize.BOOLEAN
+  },
   streetAddress1: {
     type: Sequelize.STRING
   },
   streetAddress2: {
     type: Sequelize.STRING,
-    allowsNull: true,
+    allowNull: true,
     defaultValue: null
   },
   city: {
