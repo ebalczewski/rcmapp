@@ -23,15 +23,32 @@ app.get('/users', function (req, res) {
 });
 
 function getById(model, id) {
-	return model.find({
+	return model.findOne({
 		where: {
 			id: id
 		}
 	})
 };
 
-// curl -d '{"MyKey":"My Value"}' -H "Content-Type: application/json" http://127.0.0.1:4000/users
+//can I recycle getById???
+function getByEmail(email) {
+	return User.findOne({
+		where: {
+			email: email
+		}
+	})
+};
 
+app.get('/users/:userEmail', function(req, res) {
+	let userEmail = req.params.userEmail;
+	getByEmail(userEmail).then(function(user) {
+		res.json({firstName: user.firstName, 
+				email: user.email});
+	});
+});
+
+
+// curl -d '{"MyKey":"My Value"}' -H "Content-Type: application/json" http://127.0.0.1:4000/users
 app.post('/createUser', function(req, res) {
 	User.create(req.body);
 })
