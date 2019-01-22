@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import TextBox from "../components/TextBox"
 import Button from "../components/Button"
 import SelectBox from '../components/SelectBox';
+import UserInfoDisplay from './UserInfoDisplay';
 
 class FormContainer extends Component {
     constructor(props) {
@@ -15,7 +16,7 @@ class FormContainer extends Component {
                 lastName: "",
                 batch: "",
             },
-
+            show : false,
             batchOptions : ["W1 18", "W2 19"]
         }
     }
@@ -23,6 +24,13 @@ class FormContainer extends Component {
     handleFormSubmit = (event) => {
         (event).preventDefault();
         let userData = this.state.newUser;
+
+        this.setState( prevState => {
+            return {
+                    ...prevState.show = true
+                }
+            }
+        )
 
         fetch("http://localhost:4000/createUser",{
             method: "POST",
@@ -33,7 +41,7 @@ class FormContainer extends Component {
             }
         }).then(response => {
             response.json().then(data => {
-                console.log("Successful" + data);
+                    //handle errors here!!
             })
         })
 
@@ -91,6 +99,7 @@ class FormContainer extends Component {
                     title = "Submit"
                     type = "submit"
                     onClick = {this.handleFormSubmit} />
+
             </form>
         );
     }
