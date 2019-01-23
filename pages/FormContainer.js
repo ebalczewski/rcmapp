@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import TextBox from "../components/TextBox"
 import Button from "../components/Button"
 import SelectBox from '../components/SelectBox';
-import UserInfoDisplay from './UserInfoDisplay';
 
 class FormContainer extends Component {
     constructor(props) {
@@ -17,7 +16,7 @@ class FormContainer extends Component {
                 batch: "",
             },
             show : false,
-            batchOptions : ["W1 18", "W2 19"]
+            batchOptions : ["W1 2018", "W2 2019"]
         }
     }
 

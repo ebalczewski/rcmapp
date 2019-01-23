@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 
-class UserInfoDisplay extends Component {
+class Banner extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             user: {
-                email: "",
                 firstName: "",
-                lastName: "",
-                batch: "",
+                email:"",
             },
         }
     }
@@ -31,21 +29,4 @@ class UserInfoDisplay extends Component {
 
 }
 
-export default UserInfoDisplay;
-
-
-
-
-// const UserInfoDisplay = (props) => {
-//     console.log(props)
-//     if (props.show === true) {
-//         return(
-//             <p>
-//                 {props.value}
-//             </p>
-//         );
-//     }
-//     return(<p></p>);
-// }
-
-// export default UserInfoDisplay;
+export default Banner;
