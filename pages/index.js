@@ -4,6 +4,7 @@ import React from 'react';
 import FormContainer from './FormContainer';
 import UserInfoDisplay from './UserInfoDisplay'
 import MapContainer from './MapContainer';
+import AddressInput from './AddressInput';
 
 export class App extends React.Component {
   constructor(props) {
@@ -64,17 +65,18 @@ export class App extends React.Component {
     }
     return(null);
   }
-  
 
+  //Also probs want a footer
+  
   render() {
       return(
         <div>
           {this.renderBanner()}
           {this.renderAuthentication()}
           {this.renderUserInfo()}
-          {this.renderMap()}
+          {/* {this.renderMap()} */}
+          <AddressInput />
         </div>
-        //{renderForm()}
       );
   }
 }
