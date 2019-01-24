@@ -11,7 +11,7 @@ router.get('/users/:userId/addresses/coordinates/', function (req, res) {
 		user.getAddresses().then(function(addresses) {
 
 			//what to do about multiple addresses? have a "current" tag?
-			res.json({latitude: addresses[0].latitude, 
+			res.json({latitude: addresses[0].latitude,
 					longitude: addresses[0].longitude});
 		})
 	});
@@ -25,7 +25,7 @@ router.get('/addresses/users', function(req, res){
 			}
 		]
 	}).then(address => res.json(address))
-}) 
+})
 
 // 	// Address.findAll({
 // 	// 	include: [{
@@ -43,6 +43,9 @@ router.get('/addresses/users', function(req, res){
 // // 	})
 // // };
 
+router.post('/createUser', function(req, res) {
+	User.create(req.body);
+})
 
 
 router.get('/users', function (req, res) {
