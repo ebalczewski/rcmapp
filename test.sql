@@ -13,7 +13,60 @@ INSERT INTO users (
     "john@email.com",
     "John",
     "Snow",
-    "F2",
+    "S2",
+    "date",
+    "date2"
+);
+
+INSERT INTO addresses (
+    current,
+    latitude,
+    longitude,
+    createdAt,
+    updatedAt
+) VALUES (
+    "true",
+    "40.690252",
+    "-73.973060",
+    "date",
+    "date2"
+);
+
+INSERT INTO UserAddress (
+    userId,
+    addressId,
+    createdAt,
+    updatedAt
+) VALUES (
+    1,
+    1,
+    "date",
+    "date2"
+);
+INSERT INTO Address (
+    userId,
+    addressId,
+    createdAt,
+    updatedAt
+) VALUES (
+    1,
+    1,
+    "date",
+    "date2"
+);
+
+INSERT INTO users (
+    email,
+    firstName,
+    lastName,
+    batch,
+    createdAt,
+    updatedAt
+) VALUES (
+    "ned@email.com",
+    "Ned",
+    "Stark",
+    "W2",
     "date",
     "date2"
 );
@@ -38,11 +91,13 @@ INSERT INTO UserAddress (
     createdAt,
     updatedAt
 ) VALUES (
-    1,
-    1,
+    2,
+    2,
     "date",
     "date2"
 );
+
+
 
 SELECT * FROM users;
 

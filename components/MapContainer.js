@@ -18,16 +18,17 @@ export class MapContainer extends React.Component {
             selectedPlace: null,
             showingInfoWindow: false,
             activeMarker: null,
-            markers: [],
+            markers: null,
             mapCenterLat:40.691332,
             mapCenterLng:-73.985059
         }
     }
 
-    componentDidMount() {
-        this.fetchData()
+    async componentDidMount() {
+        const markers = await this.fetchData()
+        this.setState({markers})
     }
-    
+
     onMarkerClick(props, marker) {
         this.setState({
             activeMarker: marker,
@@ -40,8 +41,19 @@ export class MapContainer extends React.Component {
         /* Here we fetch markers from our database instead of declaring an
         arbitrary array. */
 
-        fetch("http://localhost:4000/api/users")
-		.then(resp => /*resp.map(this.setState({
+        return new Promise((resolve, reject) => {
+          fetch("http://localhost:4000/api/addresses/users")
+		     .then(async resp => {
+           const data = await resp.json()
+           resolve(data)
+           // data.forEach(item => console.log(item))
+             // console.log("in resp", resp.json())
+             // Object.entries(resp.json()).forEach (
+             //   ([
+             // )
+
+
+      /*resp.map(this.setState({
                 markers: [
                     <Marker onClick={this.onMarkerClick}
                             name={users[0].firstName}
@@ -49,8 +61,10 @@ export class MapContainer extends React.Component {
                             position={{lat: 37.759703, lng: -122.428093}} />
                 ]
             }, () => {console.log('just set state')}) */
-            {}
-        )
+
+        })
+        .catch((err) => { console.log(err); reject(err) })
+      })
     }
 
     renderSelectedPlace = () => {
@@ -64,16 +78,25 @@ export class MapContainer extends React.Component {
     }
     render() {
         //const {selectedPlace} = this.state;
+        if (this.state.markers === null) {
+          return (<div></div>);
+        }
+
         return (
             <div style = {{height:"100vh"}}>
-                <Map 
-                    google={this.props.google} zoom={14} 
+                <Map
+                    google={this.props.google} zoom={14}
                     initialCenter={{
                         lat: this.state.mapCenterLat,
                         lng: this.state.mapCenterLng
                     }}
                 >
-                    {this.state.markers}
+                    {this.state.markers.map(item =>
+                      <Marker
+                        title={"cool"}
+                        name={"cooler"}
+                        position={{lat: item.latitude, lng: item.longitude}} />
+                    )}
                     <InfoWindow
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}>
