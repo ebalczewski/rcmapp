@@ -83,8 +83,8 @@ export default class extends React.Component {
           {this.renderBanner()}
           {this.renderAuthentication()}
           {this.renderUserInfo()}
-          {this.renderMap()}
           <AddressInput />
+          {this.renderMap()}
         </div>
       );
   }

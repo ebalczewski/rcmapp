@@ -27,3 +27,53 @@ nextApp.prepare().then(() => {
     if (err) throw err;
   })
 })
+
+app.get('/users/:userId/addresses/coordinates/', function (req, res) {
+	let userId = req.params.userId;
+
+	getById(User, userId).then(function(user) {
+		user.getAddresses().then(function(addresses) {
+
+			//what to do about multiple addresses? have a "current" tag?
+			res.json({latitude: addresses[0].latitude, 
+					longitude: addresses[0].longitude});
+		})
+	});
+});
+
+app.get('/addresses/users', function(req, res){
+	Address.findAll({
+		include: [
+			{
+				model: User
+			}
+		]
+	}).then(address => res.json(address))
+}) 
+
+	// Address.findAll({
+	// 	include: [{
+	// 		model: [user]
+	// 	}]
+	// }).then(function(addresses) {
+	// 	res.json(addresses);
+	// });
+
+// function getById(model, id) {
+// 	return model.findOne({
+// 		where: {
+// 			id: id
+// 		}
+// 	})
+// };
+
+
+
+// app.get('/users', function (req, res) {
+// 	User.findAll().then(function(users) {
+// 		res.json(users);
+// 	});
+// });
+
+app.listen(port, () => console.log(`Serving on port ${port}.`))
+
