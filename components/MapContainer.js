@@ -48,7 +48,8 @@ export class MapContainer extends React.Component {
                             user={users[0]}
                             position={{lat: 37.759703, lng: -122.428093}} />
                 ]
-            }, () => {console.log('just set state')}) */ console.log(resp)
+            }, () => {console.log('just set state')}) */
+            {}
         )
     }
 

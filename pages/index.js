@@ -1,9 +1,9 @@
 import React from 'react';
 
-import FormContainer from './FormContainer';
-import UserInfoDisplay from './UserInfoDisplay'
-import MapContainer from './MapContainer';
-import AddressInput from './AddressInput';
+import FormContainer from '../components/FormContainer';
+import UserInfoDisplay from '../components/UserInfoDisplay'
+import MapContainer from '../components/MapContainer';
+import AddressInput from '../components/AddressInput';
 import Login from './login';
 
 export default class extends React.Component {

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
-import TextBox from "../components/TextBox"
-import Button from "../components/Button"
-import SelectBox from '../components/SelectBox';
+import TextBox from "./stateless/TextBox"
+import Button from "./stateless/Button"
+import SelectBox from './stateless/SelectBox';
 
 class FormContainer extends Component {
     constructor(props) {
