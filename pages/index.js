@@ -1,16 +1,25 @@
-
 import React from 'react';
 
 import FormContainer from './FormContainer';
 import UserInfoDisplay from './UserInfoDisplay'
 import MapContainer from './MapContainer';
 import AddressInput from './AddressInput';
+import Login from './login';
 
-export class App extends React.Component {
+export default class extends React.Component {
+  static async getInitialProps({ req, res }) {
+    if (req.cookies.access_token !== undefined) {
+      return req.cookies
+    } else {
+      res.redirect('/login')
+    }
+  }
+
   constructor(props) {
       super(props)
 
       this.state = {
+          token: props.access_token,
           isLoggedIn: true,
           userEmail: null,
           showUserInfo: true,
@@ -80,5 +89,3 @@ export class App extends React.Component {
       );
   }
 }
-
-export default App;
