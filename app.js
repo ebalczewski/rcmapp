@@ -56,6 +56,34 @@ app.get('/users/:userId/addresses/coordinates/', function (req, res) {
 	});
 });
 
+app.get('/addresses/users', function(req, res){
+	Address.findAll({
+		include: [
+			{
+				model: User
+			}
+		]
+	}).then(address => res.json(address))
+	
+	// .then(address => {
+	// 		const resObj = address.map(address =>{
+	// 			return Object.assign(
+	// 				{},
+	// 				{
+						
+	// 				}
+	// 			)
+	// 		})
+	// 	})
+}) 
+
+	// Address.findAll({
+	// 	include: [{
+	// 		model: [user]
+	// 	}]
+	// }).then(function(addresses) {
+	// 	res.json(addresses);
+	// });
 
 // function getById(model, id) {
 // 	return model.findOne({
@@ -65,11 +93,7 @@ app.get('/users/:userId/addresses/coordinates/', function (req, res) {
 // 	})
 // };
 
-// app.get('/addresses', function(req, res){
-// 	Address.findAll().then(function(addresses) {
-// 		res.json(addresses);
-// 	});
-// });
+
 
 // app.get('/users', function (req, res) {
 // 	User.findAll().then(function(users) {

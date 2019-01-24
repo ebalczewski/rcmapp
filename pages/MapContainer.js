@@ -18,7 +18,9 @@ export class MapContainer extends React.Component {
             selectedPlace: null,
             showingInfoWindow: false,
             activeMarker: null,
-            markers: null
+            markers: [],
+            mapCenterLat:40.691332,
+            mapCenterLng:-73.985059
         }
     }
 
@@ -38,17 +40,22 @@ export class MapContainer extends React.Component {
         /* Here we fetch markers from our database instead of declaring an
         arbitrary array. */
 
-        fetch("http://localhost:4000/users")
-		.then((resp) => resp.json())
-		.then(users => this.setState({
-                markers: [
-                    <Marker onClick={this.onMarkerClick}
-                            name={users[0].firstName}
-                            user={users[0]}
-                            position={{lat: 37.759703, lng: -122.428093}} />
-                ]
-            }, () => {console.log('just set state')})   
-        )
+        fetch("http://localhost:4000/addresses/users")
+		.then((resp) => {  
+            console.log(resp.json())
+            // for (var address in resp.json()){
+            //     console.log(address)
+            // }
+        })
+		// .then(users => this.setState({
+        //         markers: [
+        //             <Marker onClick={this.onMarkerClick}
+        //                     name={users[0].firstName}
+        //                     user={users[0]}
+        //                     position={{lat: 37.759703, lng: -122.428093}} />
+        //         ]
+        //     }, () => {console.log('just set state')})   
+        // )
     }
 
     renderSelectedPlace = () => {
@@ -64,7 +71,13 @@ export class MapContainer extends React.Component {
         //const {selectedPlace} = this.state;
         return (
             <div style = {{height:"100vh"}}>
-                <Map google={this.props.google} zoom={14}>
+                <Map 
+                    google={this.props.google} zoom={14} 
+                    initialCenter={{
+                        lat: this.state.mapCenterLat,
+                        lng: this.state.mapCenterLng
+                    }}
+                >
                     {this.state.markers}
                     <InfoWindow
                         marker={this.state.activeMarker}
