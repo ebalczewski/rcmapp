@@ -64,17 +64,6 @@ app.get('/addresses/users', function(req, res){
 			}
 		]
 	}).then(address => res.json(address))
-	
-	// .then(address => {
-	// 		const resObj = address.map(address =>{
-	// 			return Object.assign(
-	// 				{},
-	// 				{
-						
-	// 				}
-	// 			)
-	// 		})
-	// 	})
 }) 
 
 	// Address.findAll({

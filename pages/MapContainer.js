@@ -41,21 +41,15 @@ export class MapContainer extends React.Component {
         arbitrary array. */
 
         fetch("http://localhost:4000/addresses/users")
-		.then((resp) => {  
-            console.log(resp.json())
-            // for (var address in resp.json()){
-            //     console.log(address)
-            // }
-        })
-		// .then(users => this.setState({
-        //         markers: [
-        //             <Marker onClick={this.onMarkerClick}
-        //                     name={users[0].firstName}
-        //                     user={users[0]}
-        //                     position={{lat: 37.759703, lng: -122.428093}} />
-        //         ]
-        //     }, () => {console.log('just set state')})   
-        // )
+		.then(resp => resp.map(this.setState({
+                markers: [
+                    <Marker onClick={this.onMarkerClick}
+                            name={users[0].firstName}
+                            user={users[0]}
+                            position={{lat: 37.759703, lng: -122.428093}} />
+                ]
+            }, () => {console.log('just set state')})   
+        ))
     }
 
     renderSelectedPlace = () => {
