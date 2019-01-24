@@ -5,13 +5,19 @@
   "main": "app.js",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "fs": "0.0.1-security",
     "google-maps-react": "^2.0.2",
+    "hackerschool-api": "^0.1.1",
+    "net": "^1.0.2",
     "next": "^7.0.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "sequelize": "^4.42.0",
-    "sqlite3": "^4.0.4"
+    "simple-oauth2": "^2.2.1",
+    "sqlite3": "^4.0.4",
+    "tls": "0.0.1"
   },
   "devDependencies": {},
   "scripts": {

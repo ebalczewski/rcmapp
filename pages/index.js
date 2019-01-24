@@ -4,13 +4,17 @@ import React from 'react';
 import FormContainer from './FormContainer';
 import UserInfoDisplay from './UserInfoDisplay'
 import MapContainer from './MapContainer';
+import Login from './Login';
+
 
 export class App extends React.Component {
   constructor(props) {
       super(props)
 
+      this.onLoginSucess = this.onLoginSucess.bind(this);
+
       this.state = {
-          isLoggedIn: true,
+          isLoggedIn: false,
           userEmail: null,
           showUserInfo: true,
           editUserInfo: true,
@@ -18,7 +22,14 @@ export class App extends React.Component {
   }
 
   componentDidMount() {
-      //this.fetchData()
+    //
+  }
+
+  onLoginSucess(email) {
+    this.setState({
+      isLoggedIn: true,
+      userEmail: email
+    })
   }
 
   renderBanner = () => {
@@ -61,8 +72,12 @@ export class App extends React.Component {
           <MapContainer />
         </div>
       );
+    } else {
+      return(
+        <div>
+          <Login action={this.onLoginSucess} />
+        </div>);
     }
-    return(null);
   }
   
 

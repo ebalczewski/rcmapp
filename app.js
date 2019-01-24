@@ -3,12 +3,41 @@
 var { User, Address } = require("./models.js");
 
 const cors = require('cors')
+
 const express = require('express')
 const app = express();
 const port = 4000;
 
 app.use(cors())
 app.use(express.json());
+
+require('dotenv').config();
+
+app.post('/oauthCallback', function(req, res) {
+	var hackerschool = require('hackerschool-api');
+	var client = hackerschool.client();
+
+	var auth = hackerschool.auth({
+		client_id: process.env.CLIENT_ID,
+		client_secret: process.env.CLIENT_SECRET,
+		redirect_uri: process.env.REDIRECT_URI
+	});
+	var code = req.query.code;
+  
+	auth.getToken(code)
+	.then(function(token) {
+	  client.setToken(token);
+	  client.people.me()
+	  .then(function(me) {
+		  res.json({email: me.email});
+	  })
+	  .catch((err) => {
+		res.send('Unable to get user email');
+	  })
+	}).catch((err) => {
+	  res.send('There was an error getting the token');
+	});
+});
 
 app.get('/addresses', function(req, res){
 	Address.findAll().then(function(addresses) {
