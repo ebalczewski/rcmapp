@@ -13,33 +13,21 @@ INSERT INTO users (
     "john@email.com",
     "John",
     "Snow",
-    "W1",
+    "F2",
     "date",
     "date2"
 );
 
 INSERT INTO addresses (
     current,
-    streetAddress1,
-    city,
-    state,
-    zip,
-    country,
     latitude,
     longitude,
-    radius,
     createdAt,
     updatedAt
 ) VALUES (
     "true",
-    "20 W 34th St",
-    "New York",
-    "New York",
-    "10001",
-    "USA",
     "40.7484",
     "73.9857",
-    "500",
     "date",
     "date2"
 );
@@ -55,6 +43,8 @@ INSERT INTO UserAddress (
     "date",
     "date2"
 );
+
+SELECT * FROM users;
 
 /*INSERT INTO users (
     email,

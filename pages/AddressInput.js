@@ -11,41 +11,40 @@ class AddressInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      address: '',
-      lat: null,
-      lng: null};
+      address: null
+    };
   }
 
   handleChange = (address) => {
     this.setState({ address });
   };
 
-  handleSubmit = (event) => {
-    (event).preventDefault();
-    
-    geocodeByAddress(this.state.address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => {
-        console.log(latLng)
-        let fuzzy_coords = fuzz_coordinates(latLng.lat, latLng.lng, 500);
-        this.setState({
-        lat: fuzzy_coords[0],
-        lng: fuzzy_coords[1]
-      })})
-      .catch(error => console.error('Error', error));
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    if(!this.state.address) return
+    try {
 
-    fetch("http://localhost:4000/createUser",{
+      const geocode = await geocodeByAddress(this.state.address)
+
+      if(!geocode[0]) return
+      const coords = await getLatLng(geocode[0])
+      let fuzzy_coords = fuzz_coordinates(coords.lat, coords.lng, 500);
+
+      await fetch("http://localhost:4000/addAddress",{
         method: "POST",
-        body: JSON.stringify(this.state.lat),
+        body: JSON.stringify({
+          current: true, 
+          latitude: fuzzy_coords[0], 
+          longitude: fuzzy_coords[1]
+        }),
         headers: {
             'Accept': "application",
             'Content-Type' : "application/json"
         }
-    }).then(response => {
-        response.json().then(data => {
-                //handle errors here!!
-        })
-    })
+      })
+   } catch(err) {
+        console.log(err)
+      }
   }
 
   handleSelect = (address) => {

@@ -10,27 +10,17 @@ const port = 4000;
 app.use(cors())
 app.use(express.json());
 
-app.get('/addresses', function(req, res){
-	Address.findAll().then(function(addresses) {
-		res.json(addresses);
-	});
-});
 
-app.get('/users', function (req, res) {
-	User.findAll().then(function(users) {
-		res.json(users);
-	});
-});
+//Endpoints
+// Get user by email
+// Get user by address
+// Get addresses by coordinates in a range
+// Add user
+// Add address
+// Add preferences
 
-function getById(model, id) {
-	return model.findOne({
-		where: {
-			id: id
-		}
-	})
-};
 
-//can I recycle getById???
+// Get user by email
 function getByEmail(email) {
 	return User.findOne({
 		where: {
@@ -49,8 +39,8 @@ app.get('/users/:userEmail', function(req, res) {
 
 
 // curl -d '{"MyKey":"My Value"}' -H "Content-Type: application/json" http://127.0.0.1:4000/users
-app.post('/createUser', function(req, res) {
-	User.create(req.body);
+app.post('/addAddress', function(req, res) {
+	Address.create(req.body);
 })
 
 app.get('/users/:userId/addresses/coordinates/', function (req, res) {
@@ -67,10 +57,24 @@ app.get('/users/:userId/addresses/coordinates/', function (req, res) {
 });
 
 
-//latitudes and longitudes within a range
-//everything by user
-//user preferences
+// function getById(model, id) {
+// 	return model.findOne({
+// 		where: {
+// 			id: id
+// 		}
+// 	})
+// };
 
-//app.use(express.static('static'));
+// app.get('/addresses', function(req, res){
+// 	Address.findAll().then(function(addresses) {
+// 		res.json(addresses);
+// 	});
+// });
+
+// app.get('/users', function (req, res) {
+// 	User.findAll().then(function(users) {
+// 		res.json(users);
+// 	});
+// });
 
 app.listen(port, () => console.log(`Serving on port ${port}.`))
