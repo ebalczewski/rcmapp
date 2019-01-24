@@ -6,6 +6,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
+    "dotenv-webpack": "^1.7.0",
     "express": "^4.16.4",
     "google-maps-react": "^2.0.2",
     "next": "^7.0.2",

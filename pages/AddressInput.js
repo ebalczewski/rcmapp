@@ -5,13 +5,13 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import Button from '../components/Button.js'
 
-const API_KEY = process.env.GOOGLE_MAPS_JAVASCRIPT_API_KEY
+const API_KEY = process.env.GOOGLE_MAPS_PLACES_API_KEY
 
 class AddressInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      address: null
+      address: ""
     };
   }
 

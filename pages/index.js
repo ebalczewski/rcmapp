@@ -74,7 +74,7 @@ export class App extends React.Component {
           {this.renderBanner()}
           {this.renderAuthentication()}
           {this.renderUserInfo()}
-          {/* {this.renderMap()} */}
+          {this.renderMap()}
           <AddressInput />
         </div>
       );
