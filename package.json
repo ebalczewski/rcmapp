@@ -4,21 +4,25 @@
   "description": "## Functionality",
   "main": "app.js",
   "dependencies": {
+    "axios": "^0.18.0",
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "dotenv-webpack": "^1.7.0",
     "express": "^4.16.4",
     "google-maps-react": "^2.0.2",
+    "hackerschool-api": "^0.1.1",
     "next": "^7.0.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-places-autocomplete": "^7.2.0",
     "sequelize": "^4.42.0",
+    "simple-oauth2": "^2.2.1",
     "sqlite3": "^4.0.4"
   },
   "devDependencies": {},
   "scripts": {
-    "dev": "next",
+    "dev": "node app.js",
     "build": "next build",
     "start": "next start"
   },
