@@ -23,9 +23,17 @@ router.get('/authorize', (req, res) => {
   const code = req.query.code;
 
   authenticator.getToken(code)
-  .then((token) => { 
-    res.cookie('access_token', token);
-    res.redirect('/');
+  .then((token) => {
+    let client = hackerschool.client();
+    client.setToken(token);
+    client.people.me()
+    .then(function(user) {
+      res.cookie('firstName', user.first_name);
+      res.cookie('lastName', user.last_name);
+      res.cookie('userEmail', user.email);
+      res.cookie('batches', JSON.stringify(user.batches));
+      res.redirect('/');
+    })
   })
   .catch((err)   => { 
     res.redirect('/')
