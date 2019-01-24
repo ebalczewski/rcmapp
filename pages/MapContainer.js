@@ -40,16 +40,16 @@ export class MapContainer extends React.Component {
         /* Here we fetch markers from our database instead of declaring an
         arbitrary array. */
 
-        fetch("http://localhost:4000/addresses/users")
-		.then(resp => resp.map(this.setState({
+        fetch("http://localhost:4000/api/users")
+		.then(resp => /*resp.map(this.setState({
                 markers: [
                     <Marker onClick={this.onMarkerClick}
                             name={users[0].firstName}
                             user={users[0]}
                             position={{lat: 37.759703, lng: -122.428093}} />
                 ]
-            }, () => {console.log('just set state')})   
-        ))
+            }, () => {console.log('just set state')}) */ console.log(resp)
+        )
     }
 
     renderSelectedPlace = () => {

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default class Login extends React.Component {
   static async getInitialProps({ req }) {
-    return await axios.get('http://localhost:4000/api/login')
+    return await axios.get('http://localhost:4000/auth/login')
       .then((response) => { 
         return { authUrl : response.data.authUrl };
       })

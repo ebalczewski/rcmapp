@@ -31,7 +31,7 @@ class FormContainer extends Component {
             }
         )
 
-        fetch("http://localhost:4000/createUser",{
+        fetch("http://localhost:4000/api/createUser",{
             method: "POST",
             body: JSON.stringify(userData),
             headers: {

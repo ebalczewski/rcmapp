@@ -3,6 +3,8 @@ const router = express.Router();
 
 const hackerschool = require('hackerschool-api');
 
+var { User, Address } = require("../models.js");
+
 const authenticator = hackerschool.auth({
     client_id: process.env.RECURSE_ID,
     client_secret: process.env.SECRET_KEY,
@@ -29,5 +31,12 @@ router.get('/authorize', (req, res) => {
     res.redirect('/')
   });
 });
+
+router.get('/users', function (req, res) {
+	User.findAll().then(function(users) {
+		res.json(users);
+	});
+});
+
 
 module.exports = router;

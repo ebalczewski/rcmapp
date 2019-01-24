@@ -9,7 +9,8 @@ const dev = process.env.NODE_DEV !== 'production' //true false
 const nextApp = next({ dev })
 const handle = nextApp.getRequestHandler()
 
-const apiRoutes = require('./routes')
+const authRoutes = require('./routes/auth')
+const apiRoutes = require('./routes/api')
 
 nextApp.prepare().then(() => {
   const app = express()
@@ -17,6 +18,7 @@ nextApp.prepare().then(() => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
+  app.use('/auth', authRoutes);
   app.use('/api', apiRoutes);
 
   app.get('*', (req, res) => {
@@ -27,53 +29,4 @@ nextApp.prepare().then(() => {
     if (err) throw err;
   })
 })
-
-app.get('/users/:userId/addresses/coordinates/', function (req, res) {
-	let userId = req.params.userId;
-
-	getById(User, userId).then(function(user) {
-		user.getAddresses().then(function(addresses) {
-
-			//what to do about multiple addresses? have a "current" tag?
-			res.json({latitude: addresses[0].latitude, 
-					longitude: addresses[0].longitude});
-		})
-	});
-});
-
-app.get('/addresses/users', function(req, res){
-	Address.findAll({
-		include: [
-			{
-				model: User
-			}
-		]
-	}).then(address => res.json(address))
-}) 
-
-	// Address.findAll({
-	// 	include: [{
-	// 		model: [user]
-	// 	}]
-	// }).then(function(addresses) {
-	// 	res.json(addresses);
-	// });
-
-// function getById(model, id) {
-// 	return model.findOne({
-// 		where: {
-// 			id: id
-// 		}
-// 	})
-// };
-
-
-
-// app.get('/users', function (req, res) {
-// 	User.findAll().then(function(users) {
-// 		res.json(users);
-// 	});
-// });
-
-app.listen(port, () => console.log(`Serving on port ${port}.`))
 
