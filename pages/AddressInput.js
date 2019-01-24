@@ -5,7 +5,6 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import Button from '../components/Button.js'
 
-
 const API_KEY = process.env.GOOGLE_MAPS_JAVASCRIPT_API_KEY
 
 class AddressInput extends React.Component {
@@ -24,10 +23,29 @@ class AddressInput extends React.Component {
   handleSubmit = (event) => {
     (event).preventDefault();
     
-    geocodeByAddress(address)
-    .then(results => getLatLng(results[0]))
-    .then(latLng => console.log('Success', latLng))
-    .catch(error => console.error('Error', error));
+    geocodeByAddress(this.state.address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        console.log(latLng)
+        let fuzzy_coords = fuzz_coordinates(latLng.lat, latLng.lng, 500);
+        this.setState({
+        lat: fuzzy_coords[0],
+        lng: fuzzy_coords[1]
+      })})
+      .catch(error => console.error('Error', error));
+
+    fetch("http://localhost:4000/createUser",{
+        method: "POST",
+        body: JSON.stringify(this.state.lat),
+        headers: {
+            'Accept': "application",
+            'Content-Type' : "application/json"
+        }
+    }).then(response => {
+        response.json().then(data => {
+                //handle errors here!!
+        })
+    })
   }
 
   handleSelect = (address) => {
@@ -88,6 +106,18 @@ class AddressInput extends React.Component {
       </div>
     );
   }
+}
+
+function fuzz_coordinates(lat, lng, fuzz_meters) {
+  //111111 is an approzimation for meters/degree that is accurate far from the poles and over small distances
+  let fuzzy_lat = getRandomArbitrary(-1,1) * fuzz_meters / 111111 + lat
+  let fuzzy_lng = getRandomArbitrary(-1,1) * fuzz_meters / (111111 * Math.cos(lat)) + lng 
+
+  return([fuzzy_lat, fuzzy_lng]);
+}
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 export default AddressInput;

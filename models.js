@@ -22,46 +22,23 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING,
     allowNull: true,
     defaultValue: null
-  },
+  }
 });
 
 const Address = sequelize.define('address', {
   current: {
     type: Sequelize.BOOLEAN
   },
-  streetAddress1: {
-    type: Sequelize.STRING
-  },
-  streetAddress2: {
-    type: Sequelize.STRING,
-    allowNull: true,
-    defaultValue: null
-  },
-  city: {
-    type: Sequelize.STRING,
-  },
-  state: {
-    type: Sequelize.STRING,
-  },
-  zip: {
-    type: Sequelize.STRING,
-  },
-  country: {
-    type: Sequelize.STRING,
-  },
   latitude: {
     type: Sequelize.DECIMAL(16)
   },
   longitude: {
     type: Sequelize.DECIMAL(16)
-  },
-  radius: {
-    type: Sequelize.INTEGER, 
-  },
+  }
 });
 
 User.belongsToMany(Address, {through: 'UserAddress'});
-Address.belongsToMany(User, {through: 'UserAddress'});
+Address.belongsTo(User, {through: 'UserAddress'});
 
 sequelize.sync()
 
