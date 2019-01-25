@@ -7,7 +7,7 @@ import AddressInput from '../components/AddressInput';
 
 export default class extends React.Component {
   static async getInitialProps({ req, res }) {
-    if (req.cookies.user !== undefined) {
+    if (req.cookies.userEmail !== undefined) {
       return req.cookies
     } else {
       res.redirect('/login')
@@ -16,8 +16,11 @@ export default class extends React.Component {
 
   constructor(props) {
       super(props)
+
       this.state = {
-          user: props.user
+          userEmail: props.userEmail,
+          userName: props.firstName,
+          userBatches: props.userBatches,
       }
   }
 
@@ -29,12 +32,8 @@ export default class extends React.Component {
   render() {
       return(
         <div>
-          <Banner name={this.state.user.firstName}/>
-          <AddressInput 
-            firstName = {this.state.user.firstName} 
-            lastName = {this.state.user.lastName}
-            batches = {this.state.user.batches}
-          />
+          <Banner name={this.state.userName}/>
+          <AddressInput />
           <MapContainer />
         </div>
       );
