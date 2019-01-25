@@ -10,8 +10,13 @@ const API_KEY = process.env.GOOGLE_MAPS_PLACES_API_KEY
 class AddressInput extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = { 
-      address: ""
+      address: "",
+      firstName: props.firstName,
+      lastName: props.lastName,
+      batch: props.batch,
+      email: props.email
     };
   }
 
@@ -29,13 +34,16 @@ class AddressInput extends React.Component {
       if(!geocode[0]) return
       const coords = await getLatLng(geocode[0])
       let fuzzy_coords = fuzz_coordinates(coords.lat, coords.lng, 500);
-
-      await fetch("http://localhost:4000/addAddress",{
+      await fetch("http://localhost:4000/api/createAddress",{
         method: "POST",
         body: JSON.stringify({
           current: true, 
           latitude: fuzzy_coords[0], 
-          longitude: fuzzy_coords[1]
+          longitude: fuzzy_coords[1],
+          email: this.state.email,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          batch: this.state.batch
         }),
         headers: {
             'Accept': "application",
