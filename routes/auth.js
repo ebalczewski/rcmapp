@@ -27,12 +27,21 @@ router.get('/authorize', (req, res) => {
     let client = hackerschool.client();
     client.setToken(token);
     client.people.me()
-    .then(function(user) {
-      res.cookie('firstName', user.first_name);
-      res.cookie('lastName', user.last_name);
-      res.cookie('userEmail', user.email);
-      res.cookie('batches', JSON.stringify(user.batches));
-      res.redirect('/');
+    .then(user => {
+      console.log("finding")
+      User.findOrCreate({
+        where:{
+          email: user.email,
+        },
+        defaults:{
+          firstName: user.first_name,
+          lastName: user.last_name,
+          batch: JSON.stringify(user.batches)
+        }
+      }).spread((currentUser, created) => {
+          res.cookie('user', currentUser.dataValues);
+          res.redirect('/');
+      })
     })
   })
   .catch((err)   => { 
