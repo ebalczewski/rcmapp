@@ -47,6 +47,10 @@ router.post('/createUser', function(req, res) {
 	User.create(req.body);
 })
 
+router.post('/addAddress', function(req, res) {
+	User.create(req.body);
+})
+
 
 router.get('/users', function (req, res) {
 	User.findAll().then(function(users) {
