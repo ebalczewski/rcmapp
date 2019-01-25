@@ -35,7 +35,7 @@ export default class extends React.Component {
         <div>
           <Banner name={this.state.firstName}/>
           <AddressInput 
-            firstName = {this.state.fristName} 
+            firstName = {this.state.firstName} 
             lastName = {this.state.lastName}
             batch = {this.state.userBatches}
             email = {this.state.userEmail}
