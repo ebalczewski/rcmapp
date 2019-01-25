@@ -38,8 +38,8 @@ const Address = sequelize.define('address', {
   }
 });
 
-User.belongsToMany(Address, {through: 'UserAddress'});
-Address.belongsTo(User);
+User_Address = User.belongsToMany(Address, {through: 'UserAddress'});
+Address_User = Address.belongsTo(User);
 
 sequelize.sync()
 
