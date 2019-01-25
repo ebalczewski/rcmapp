@@ -17,7 +17,7 @@ export class MapContainer extends React.Component {
         this.state = {
             selectedPlace: null,
             showingInfoWindow: false,
-            activeMarker: null,
+            activeMarker: false,
             markers: null,
             mapCenterLat:40.691332,
             mapCenterLng:-73.985059
@@ -93,15 +93,21 @@ export class MapContainer extends React.Component {
                 >
                     {this.state.markers.map(item =>
                       <Marker
-                        title={"cool"}
-                        name={"cooler"}
-                        position={{lat: item.latitude, lng: item.longitude}} />
+                        title={item.user.firstName + " " + item.user.lastName}
+                        name={item.user.firstName + " " + item.user.lastName}
+                        position={{lat: item.latitude, lng: item.longitude}}
+                        onClick={this.onMarkerClick}
+                         />
                     )}
-                    <InfoWindow
+                    {this.state.activeMarker != false &&
+                    
+                        <InfoWindow
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}>
                         {this.renderSelectedPlace()}
-                    </InfoWindow>
+                        </InfoWindow>
+                    }
+                    
                 </Map>
             </div>
         );
