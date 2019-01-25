@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-var { User, Address } = require("../models.js");
+var { User, Address, User_Address, Address_User} = require("../models.js");
 
 
 router.get('/users/:userId/addresses/coordinates/', function (req, res) {
@@ -47,8 +47,26 @@ router.post('/createUser', function(req, res) {
 	User.create(req.body);
 })
 
-router.post('/addAddress', function(req, res) {
-	User.create(req.body);
+router.post('/createAddress', function(req, res) {
+	let data = req.body
+	User.findOrCreate(
+		{
+			where:{email: data.email},
+			defaults:{
+				firstName: data.firstName,
+				lastName: data.lastName,
+				batch: data.batch
+			}
+		}
+	).spread((user, created) => {
+		console.log(user.dataValues)
+		Address.create({
+			current: data.current,
+			latitude: data.latitude,
+			longitude: data.longitude,
+			userId: user.id
+		})
+	})
 })
 
 
