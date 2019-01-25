@@ -23,27 +23,18 @@ INSERT INTO addresses (
     latitude,
     longitude,
     createdAt,
-    updatedAt
+    updatedAt,
+    userId
 ) VALUES (
     "true",
     "40.690252",
     "-73.973060",
     "date",
-    "date2"
+    "date2",
+    1
 );
 
 INSERT INTO UserAddress (
-    userId,
-    addressId,
-    createdAt,
-    updatedAt
-) VALUES (
-    1,
-    1,
-    "date",
-    "date2"
-);
-INSERT INTO Address (
     userId,
     addressId,
     createdAt,
@@ -76,13 +67,15 @@ INSERT INTO addresses (
     latitude,
     longitude,
     createdAt,
-    updatedAt
+    updatedAt,
+    userid
 ) VALUES (
     "true",
     "40.7484",
     "73.9857",
     "date",
-    "date2"
+    "date2",
+    2
 );
 
 INSERT INTO UserAddress (
@@ -100,6 +93,7 @@ INSERT INTO UserAddress (
 
 
 SELECT * FROM users;
+SELECT * FROM addresses;
 
 /*INSERT INTO users (
     email,
