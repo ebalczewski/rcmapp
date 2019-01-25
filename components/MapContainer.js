@@ -93,9 +93,11 @@ export class MapContainer extends React.Component {
                 >
                     {this.state.markers.map(item =>
                       <Marker
-                        title={"cool"}
-                        name={"cooler"}
-                        position={{lat: item.latitude, lng: item.longitude}} />
+                        title={item.user.firstName + " " + item.user.lastName}
+                        name={item.user.firstName + " " + item.user.lastName}
+                        position={{lat: item.latitude, lng: item.longitude}}
+                        onClick={this.onMarkerClick}
+                         />
                     )}
                     <InfoWindow
                         marker={this.state.activeMarker}
