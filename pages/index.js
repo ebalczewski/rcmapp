@@ -29,17 +29,19 @@ export default class extends React.Component {
 
   }
   //Also probs want a footer
-  
-  render() {
-      return(
-        <div>
-          <Banner name={this.state.firstName}/>
+/*
           <AddressInput 
             firstName = {this.state.firstName} 
             lastName = {this.state.lastName}
             batch = {this.state.userBatches}
             email = {this.state.userEmail}
           />
+*/
+  
+  render() {
+      return(
+        <div>
+          <Banner name={this.state.firstName}/>
           <MapContainer />
         </div>
       );
