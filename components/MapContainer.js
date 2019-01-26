@@ -10,8 +10,6 @@ method on MapContainer so that it retrieves data from our database.
 import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
-import AddressInput from './AddressInput';
-
 const API_KEY = process.env.GOOGLE_MAPS_PLACES_API_KEY
 
 export class MapContainer extends React.Component {
@@ -88,7 +86,7 @@ export class MapContainer extends React.Component {
 
         return (
             <div>
-            <AddressInput />
+            {this.props.children}
             <div style = {{height:"100vh"}}>
                 <Map
                     google={this.props.google} zoom={14}
@@ -117,7 +115,7 @@ export class MapContainer extends React.Component {
                     
                 </Map>
             </div>
-          </div>
+            </div>
         );
     }
 }
