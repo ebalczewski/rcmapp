@@ -13,35 +13,25 @@ INSERT INTO users (
     "john@email.com",
     "John",
     "Snow",
-    "W1",
+    "S2",
     "date",
     "date2"
 );
 
 INSERT INTO addresses (
     current,
-    streetAddress1,
-    city,
-    state,
-    zip,
-    country,
     latitude,
     longitude,
-    radius,
     createdAt,
-    updatedAt
+    updatedAt,
+    userId
 ) VALUES (
     "true",
-    "20 W 34th St",
-    "New York",
-    "New York",
-    "10001",
-    "USA",
-    "40.7484",
-    "73.9857",
-    "500",
+    "40.690252",
+    "-73.973060",
     "date",
-    "date2"
+    "date2",
+    1
 );
 
 INSERT INTO UserAddress (
@@ -55,6 +45,55 @@ INSERT INTO UserAddress (
     "date",
     "date2"
 );
+
+INSERT INTO users (
+    email,
+    firstName,
+    lastName,
+    batch,
+    createdAt,
+    updatedAt
+) VALUES (
+    "ned@email.com",
+    "Ned",
+    "Stark",
+    "W2",
+    "date",
+    "date2"
+);
+
+INSERT INTO addresses (
+    current,
+    latitude,
+    longitude,
+    createdAt,
+    updatedAt,
+    userid
+) VALUES (
+    "true",
+    "40.7484",
+    "73.9857",
+    "date",
+    "date2",
+    2
+);
+
+INSERT INTO UserAddress (
+    userId,
+    addressId,
+    createdAt,
+    updatedAt
+) VALUES (
+    2,
+    2,
+    "date",
+    "date2"
+);
+
+
+
+SELECT * FROM users;
+SELECT * FROM addresses;
 
 /*INSERT INTO users (
     email,

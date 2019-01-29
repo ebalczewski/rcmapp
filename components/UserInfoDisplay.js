@@ -3,13 +3,22 @@ import React, { Component } from 'react'
 class UserInfoDisplay extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            user: {
+                email: "",
+                firstName: "",
+                lastName: "",
+                batch: "",
+            },
+        }
     }
 
     componentDidMount() {
         console.log(this.props.email)
         let userEmail = "Y@gmail.com"
 
-        fetch("http://localhost:4000/users/" + userEmail)
+        fetch("http://localhost:4000/auth/users/" + userEmail)
 		.then((resp) => resp.json())
 		.then(user => {console.log(user.firstName)} , () => {console.log("fetched!")})   
     }

@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 
-import TextBox from "../components/TextBox"
-import Button from "../components/Button"
-import SelectBox from '../components/SelectBox';
-import UserInfoDisplay from './UserInfoDisplay';
+import TextBox from "./stateless/TextBox"
+import Button from "./stateless/Button"
+import SelectBox from './stateless/SelectBox';
 
 class FormContainer extends Component {
     constructor(props) {
@@ -17,7 +16,7 @@ class FormContainer extends Component {
                 batch: "",
             },
             show : false,
-            batchOptions : ["W1 18", "W2 19"]
+            batchOptions : ["W1 2018", "W2 2019"]
         }
     }
 
@@ -32,7 +31,7 @@ class FormContainer extends Component {
             }
         )
 
-        fetch("http://localhost:4000/createUser",{
+        fetch("http://localhost:4000/api/createUser",{
             method: "POST",
             body: JSON.stringify(userData),
             headers: {
