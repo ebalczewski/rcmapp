@@ -18,6 +18,11 @@ router.get('/login', (req, res) => {
   res.json({ authUrl : authUrl })
 });
 
+router.get('/logout', (req, res) => {
+  res.clearCookie('userEmail');
+  res.redirect('/');
+})
+
 // Expects redirect URL of /api/authorize
 router.get('/authorize', (req, res) => {
   const code = req.query.code;
