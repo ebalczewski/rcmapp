@@ -62,8 +62,6 @@ class AddressInput extends React.Component {
   render() {
     return (
         <div>
-        <script type="text/javascript" src={"https://maps.googleapis.com/maps/api/js?key=" +  API_KEY + "&libraries=places"}></script>
-        
       <form onSubmit={this.handleSubmit}>
         <PlacesAutocomplete
           value={this.state.address}

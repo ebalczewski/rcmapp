@@ -85,6 +85,8 @@ export class MapContainer extends React.Component {
         }
 
         return (
+            <div>
+            {this.props.children}
             <div style = {{height:"100vh"}}>
                 <Map
                     google={this.props.google} zoom={14}
@@ -93,8 +95,9 @@ export class MapContainer extends React.Component {
                         lng: this.state.mapCenterLng
                     }}
                 >
-                    {this.state.markers.map(item =>
+                    {this.state.markers.map((item, key) =>
                       <Marker
+                        key={key}
                         title={item.user.firstName + " " + item.user.lastName}
                         name={item.user.firstName + " " + item.user.lastName}
                         position={{lat: item.latitude, lng: item.longitude}}
@@ -112,6 +115,7 @@ export class MapContainer extends React.Component {
                     
                 </Map>
             </div>
+            </div>
         );
     }
 }
@@ -119,5 +123,5 @@ export class MapContainer extends React.Component {
 
 
 export default GoogleApiWrapper({
-    apiKey: 'AIzaSyAutNEtDc_coy9ZAvUgeda54-yGqES-5Ao',
+    apiKey: API_KEY,
 })(MapContainer)
