@@ -97,7 +97,7 @@ export class InfoWindow extends React.Component {
             '<ul>' +
                 '<li>Coffee: ' + user.coffee + '</li>' +
                 '<li>Stay: ' + user.stay + '</li>' +
-                '<li>Milk: ' + user.roomate + '</li>' +
+                '<li>Roomate: ' + user.roomate + '</li>' +
             '</ul>'+
             '</h2>' +
             '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
