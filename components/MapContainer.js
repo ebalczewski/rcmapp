@@ -8,7 +8,8 @@ For basic mapping functionality on rcmapp we would mostly need to change the fet
 method on MapContainer so that it retrieves data from our database.
 */
 import React from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {InfoWindow} from "./stateless/CustomInfoWindow"
 
 const API_KEY = process.env.GOOGLE_MAPS_PLACES_API_KEY
 
@@ -100,6 +101,7 @@ export class MapContainer extends React.Component {
                         key={key}
                         title={item.user.firstName + " " + item.user.lastName}
                         name={item.user.firstName + " " + item.user.lastName}
+                        user={item.user}
                         position={{lat: item.latitude, lng: item.longitude}}
                         onClick={this.onMarkerClick}
                          />
