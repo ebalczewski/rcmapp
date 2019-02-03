@@ -89,20 +89,17 @@ export class InfoWindow extends React.Component {
         '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">' + 
+            '<h2 id="firstHeading" class="firstHeading">' + 
             user.firstName + " " + user.lastName +
-            '</h1>'+
+            '</h2>'+
             '<div id="bodyContent">'+
-            '<h2>' +
             '<ul>' +
                 '<li>Coffee: ' + user.coffee + '</li>' +
                 '<li>Stay: ' + user.stay + '</li>' +
                 '<li>Roomate: ' + user.roomate + '</li>' +
             '</ul>'+
-            '</h2>' +
-            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-            '(last visited June 22, 2009).</p>'+
+            '<p><a href="https://www.recurse.com/directory?q=' + user.email + '">'+
+            'Directory</a> </p>'+
             '</div>'+
             '</div>'
     );
