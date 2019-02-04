@@ -23,6 +23,21 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING,
     allowNull: true,
     defaultValue: null
+  },
+  coffee: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  stay: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  roomate: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 });
 
