@@ -22,14 +22,25 @@ export class MapContainer extends React.Component {
             showingInfoWindow: false,
             activeMarker: false,
             markers: null,
-            mapCenterLat:40.691332,
-            mapCenterLng:-73.985059
+            mapCenterLat: props.mapCenterLat,
+            mapCenterLng: props.mapCenterLng
         }
     }
-
-    async componentDidMount() {
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            mapCenterLat: nextProps.mapCenterLat,
+            mapCenterLng: nextProps.mapCenterLng
+        })
+        this.fetchMarkers()
+    }
+    
+    async fetchMarkers(){
         const markers = await this.fetchData()
         this.setState({markers})
+    }
+
+    componentDidMount() {
+        this.fetchMarkers()
     }
 
     onMarkerClick(props, marker) {
@@ -91,6 +102,10 @@ export class MapContainer extends React.Component {
             <div style = {{height:"100vh"}}>
                 <Map
                     google={this.props.google} zoom={14}
+                    center={{
+                        lat: this.state.mapCenterLat,
+                        lng: this.state.mapCenterLng
+                    }}
                     initialCenter={{
                         lat: this.state.mapCenterLat,
                         lng: this.state.mapCenterLng

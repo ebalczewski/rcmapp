@@ -16,7 +16,8 @@ class AddressInput extends React.Component {
       firstName: props.firstName,
       lastName: props.lastName,
       batch: props.batch,
-      email: props.email
+      email: props.email,
+      updateGoogleContainer: props.updateGoogleContainer
     };
   }
 
@@ -34,6 +35,8 @@ class AddressInput extends React.Component {
       if(!geocode[0]) return
       const coords = await getLatLng(geocode[0])
       let fuzzy_coords = fuzz_coordinates(coords.lat, coords.lng, 500);
+
+
       await fetch("http://localhost:4000/api/createAddress",{
         method: "POST",
         body: JSON.stringify({
@@ -50,6 +53,11 @@ class AddressInput extends React.Component {
             'Content-Type' : "application/json"
         }
       })
+      this.state.updateGoogleContainer({
+        latitude: fuzzy_coords[0], 
+        longitude: fuzzy_coords[1]
+      })
+      
    } catch(err) {
         console.log(err)
       }

@@ -1,18 +1,42 @@
-import axios from 'axios';
+import React, {Component} from 'react';
 
-export default class Login extends React.Component {
-  static async getInitialProps({ req }) {
-    return await axios.get('http://localhost:4000/auth/login')
-      .then((response) => { 
-        return { authUrl : response.data.authUrl };
-      })
-      .catch((err) => {
-        console.log(err);
-        return {}
-      })
-  }
+import Button from "../components/Button"
 
-  render() {
-    return (<a href={this.props.authUrl}>Login</a>)
-  }
+//require('dotenv').config();
+
+
+/* Takes on login clock */
+class Login extends Component {
+    constructor(props) {
+        super(props);
+
+        this.onLoginClick = this.onLoginClick.bind(this);
+    } 
+
+    onLoginClick(event) {
+
+        var hackerschool = require('hackerschool-api');
+        var client = hackerschool.client();
+
+        var auth = hackerschool.auth({
+            client_id: process.env.CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
+            redirect_uri: process.env.REDIRECT_URI
+        });
+
+        var authUrl = auth.createAuthUrl();
+        fetch(authUrl)
+        .then(data => {
+            this.props.action(data);
+        })
+    }
+
+    render() {
+        return (
+            <div>
+              <Button title="Login" type="button" action={this.onLoginClick} />
+            </div>);
+    }
 }
+
+export default Login;
