@@ -77,7 +77,7 @@ router.post('/createAddress', function(req, res) {
 			userId: user.id
 		})
 		.then((address) => {
-			user.addAddress(address);
+			user.addAddress(address).then((result) => res.end())
 		})
 	})
 })

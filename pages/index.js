@@ -1,8 +1,7 @@
 import React from 'react';
 
 import Banner from '../components/stateless/Banner';
-import MapContainer from '../components/MapContainer';
-import AddressInput from '../components/AddressInput';
+import GoogleContainer from '../components/GoogleContainer';
 
 import axios from 'axios';
 
@@ -48,14 +47,12 @@ export default class extends React.Component {
   renderMapContainer = () => {
     if (this.state.userEmail !== undefined) {
       return (
-        <MapContainer>
-          <AddressInput
+          <GoogleContainer
             firstName = {this.state.firstName}
             lastName = {this.state.lastName}
             batch = {this.state.userBatches}
             email = {this.state.userEmail}
           />
-        </MapContainer>
       );
     } else {
       return (
