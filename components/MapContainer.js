@@ -31,7 +31,11 @@ export class MapContainer extends React.Component {
             mapCenterLat: nextProps.mapCenterLat,
             mapCenterLng: nextProps.mapCenterLng
         })
-        this.fetchMarkers()
+        this.updateMarkers();
+    }
+
+    updateMarkers() {
+        this.props.previewMarker ? this.makePreview() :  this.fetchMarkers()
     }
     
     async fetchMarkers(){
@@ -40,7 +44,21 @@ export class MapContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchMarkers()
+        this.updateMarkers();
+    }
+
+    makePreview() {
+        const previewMarker = this.props.previewMarker;
+        this.setState({ markers: [
+            {
+                latitude : previewMarker.latitude,
+                longitude : previewMarker.longitude,
+                user : {
+                    firstName : previewMarker.firstName,
+                    lastName : previewMarker.lastName
+                }
+            }
+        ]});
     }
 
     onMarkerClick(props, marker) {
@@ -54,7 +72,6 @@ export class MapContainer extends React.Component {
     fetchData = () => {
         /* Here we fetch markers from our database instead of declaring an
         arbitrary array. */
-
         return new Promise((resolve, reject) => {
           fetch("http://localhost:4000/api/addresses/markers")
 		     .then(async resp => {
@@ -90,12 +107,12 @@ export class MapContainer extends React.Component {
             </div>
         );
     }
+
     render() {
         //const {selectedPlace} = this.state;
         if (this.state.markers === null) {
           return (<div></div>);
         }
-
         return (
             <div>
             {this.props.children}
@@ -111,15 +128,15 @@ export class MapContainer extends React.Component {
                         lng: this.state.mapCenterLng
                     }}
                 >
-                    {this.state.markers.map((item, key) =>
-                        <Marker
+                    {this.state.markers.map((item, key) => {
+                        return <Marker
                             key={key}
                             title={item.user.firstName + " " + item.user.lastName}
                             name={item.user.firstName + " " + item.user.lastName}
                             user={item.user}
                             position={{lat: item.latitude, lng: item.longitude}}
                             onClick={this.onMarkerClick}
-                        />
+                        /> }
                     )}
                     {this.state.activeMarker != false &&
                     

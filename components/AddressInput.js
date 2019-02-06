@@ -13,11 +13,6 @@ class AddressInput extends React.Component {
     console.log(props)
     this.state = { 
       address: "",
-      firstName: props.firstName,
-      lastName: props.lastName,
-      batch: props.batch,
-      email: props.email,
-      updateGoogleContainer: props.updateGoogleContainer
     };
   }
 
@@ -29,38 +24,13 @@ class AddressInput extends React.Component {
     event.preventDefault();
     if(!this.state.address) return
     try {
-
       const geocode = await geocodeByAddress(this.state.address)
-
       if(!geocode[0]) return
       const coords = await getLatLng(geocode[0])
-      let fuzzy_coords = fuzz_coordinates(coords.lat, coords.lng, 500);
-
-
-      await fetch("http://localhost:4000/api/createAddress",{
-        method: "POST",
-        body: JSON.stringify({
-          current: true, 
-          latitude: fuzzy_coords[0], 
-          longitude: fuzzy_coords[1],
-          email: this.state.email,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          batch: this.state.batch
-        }),
-        headers: {
-            'Accept': "application",
-            'Content-Type' : "application/json"
-        }
-      })
-      this.state.updateGoogleContainer({
-        latitude: fuzzy_coords[0], 
-        longitude: fuzzy_coords[1]
-      })
-      
-   } catch(err) {
-        console.log(err)
-      }
+      this.props.handleSubmit(coords.lat, coords.lng);
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   handleSelect = (address) => {
@@ -69,7 +39,7 @@ class AddressInput extends React.Component {
 
   render() {
     return (
-        <div>
+      <div>
       <form onSubmit={this.handleSubmit}>
         <PlacesAutocomplete
           value={this.state.address}
@@ -119,18 +89,6 @@ class AddressInput extends React.Component {
       </div>
     );
   }
-}
-
-function fuzz_coordinates(lat, lng, fuzz_meters) {
-  //111111 is an approzimation for meters/degree that is accurate far from the poles and over small distances
-  let fuzzy_lat = getRandomArbitrary(-1,1) * fuzz_meters / 111111 + lat
-  let fuzzy_lng = getRandomArbitrary(-1,1) * fuzz_meters / (111111 * Math.cos(lat)) + lng 
-
-  return([fuzzy_lat, fuzzy_lng]);
-}
-
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
 }
 
 export default AddressInput;
