@@ -29,4 +29,3 @@ nextApp.prepare().then(() => {
     if (err) throw err;
   })
 })
-

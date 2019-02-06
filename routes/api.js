@@ -17,14 +17,25 @@ router.get('/users/:userId/addresses/coordinates/', function (req, res) {
 	});
 });
 
-router.get('/addresses/users', function(req, res){
+router.get('/addresses/markers', function(req, res){
 	Address.findAll({
 		include: [
 			{
 				model: User
 			}
 		]
-	}).then(address => res.json(address))
+	}).then((addresses) => {
+		markers = [];
+		addresses.map((address, key) => {
+			user = address.users[0];
+			markers.push({
+				user: user,
+				latitude: address.latitude,
+				longitude: address.longitude,
+			})
+		})
+		res.json(markers);
+	})
 })
 
 // 	// Address.findAll({
@@ -59,12 +70,14 @@ router.post('/createAddress', function(req, res) {
 			}
 		}
 	).spread((user, created) => {
-		console.log(user.dataValues)
 		Address.create({
 			current: data.current,
 			latitude: data.latitude,
 			longitude: data.longitude,
 			userId: user.id
+		})
+		.then((address) => {
+			user.addAddress(address);
 		})
 	})
 })

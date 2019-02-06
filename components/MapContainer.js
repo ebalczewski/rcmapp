@@ -45,7 +45,7 @@ export class MapContainer extends React.Component {
         arbitrary array. */
 
         return new Promise((resolve, reject) => {
-          fetch("http://localhost:4000/api/addresses/users")
+          fetch("http://localhost:4000/api/addresses/markers")
 		     .then(async resp => {
            const data = await resp.json()
            resolve(data)
@@ -97,14 +97,14 @@ export class MapContainer extends React.Component {
                     }}
                 >
                     {this.state.markers.map((item, key) =>
-                      <Marker
-                        key={key}
-                        title={item.user.firstName + " " + item.user.lastName}
-                        name={item.user.firstName + " " + item.user.lastName}
-                        user={item.user}
-                        position={{lat: item.latitude, lng: item.longitude}}
-                        onClick={this.onMarkerClick}
-                         />
+                        <Marker
+                            key={key}
+                            title={item.user.firstName + " " + item.user.lastName}
+                            name={item.user.firstName + " " + item.user.lastName}
+                            user={item.user}
+                            position={{lat: item.latitude, lng: item.longitude}}
+                            onClick={this.onMarkerClick}
+                        />
                     )}
                     {this.state.activeMarker != false &&
                     
