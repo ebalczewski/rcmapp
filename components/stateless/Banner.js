@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 
 export class Banner extends React.Component {
@@ -7,6 +6,7 @@ export class Banner extends React.Component {
         return (
             <div>
                 <a href={this.props.authUrl}>{this.props.authText}</a>
+                <img src={ require('../../images/cog.svg')} />
                 {this.props.name}
             </div>
         )

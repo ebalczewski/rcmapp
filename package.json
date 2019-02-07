@@ -23,7 +23,9 @@
     "sqlite3": "^4.0.4",
     "tls": "0.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "svg-react-loader": "^0.4.6"
+  },
   "scripts": {
     "dev": "node app.js",
     "build": "next build",
