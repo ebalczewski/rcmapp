@@ -94,9 +94,9 @@ export class InfoWindow extends React.Component {
             '</h2>'+
             '<div id="bodyContent">'+
             '<ul>' +
-                '<li>Coffee: ' + user.coffee + '</li>' +
+                '<li>Social: ' + user.social + '</li>' +
+                '<li>Tech: ' + user.tech+ '</li>' +
                 '<li>Stay: ' + user.stay + '</li>' +
-                '<li>Roomate: ' + user.roomate + '</li>' +
             '</ul>'+
             '<p><a href="https://www.recurse.com/directory?q=' + user.email + '">'+
             'Directory</a> </p>'+
