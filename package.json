@@ -24,7 +24,8 @@
     "tls": "0.0.1"
   },
   "devDependencies": {
-    "svg-react-loader": "^0.4.6"
+    "babel-plugin-inline-react-svg": "^1.0.1",
+    "next-cookies": "^1.0.4"
   },
   "scripts": {
     "dev": "node app.js",

@@ -28,7 +28,7 @@ export default class extends React.Component {
             lastName = {this.props.lastName}
             batch = {this.props.userBatches}
             email = {this.props.userEmail}
-            isAdd = {false}
+            isAdd = {true}
           />
         </div>
       );

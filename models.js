@@ -24,17 +24,17 @@ const User = sequelize.define('user', {
     allowNull: true,
     defaultValue: null
   },
-  coffee: {
+  social: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  tech: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false
   },
   stay: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: false
-  },
-  roomate: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false
@@ -62,17 +62,4 @@ module.exports = {
   User,
   Address
 }
-// module.exports = {
-//   User,
-//   Address
-// }
-// force: true will drop the table if it already exists
-/*User.sync().then(() => {
-  // Table created
-  return User.create({
-		firstName: 'John',
-  	lastName: 'Hancock',
-  	email: 'john@hanckock.com',
-  	batch: 'W1865',
-	});
-});*/
+

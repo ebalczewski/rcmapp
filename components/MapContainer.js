@@ -17,38 +17,40 @@ export class MapContainer extends React.Component {
     constructor(props) {
         super(props)
         this.onMarkerClick = this.onMarkerClick.bind(this);
+        console.log(props)
         this.state = {
             selectedPlace: null,
             showingInfoWindow: false,
             activeMarker: false,
             markers: null,
-            mapCenterLat: props.mapCenterLat,
-            mapCenterLng: props.mapCenterLng
         }
     }
     componentWillReceiveProps(nextProps) {
-        this.setState({
+        /*this.setState({
             mapCenterLat: nextProps.mapCenterLat,
-            mapCenterLng: nextProps.mapCenterLng
+            mapCenterLng: nextProps.mapCenterLng,
+            previewMarker: nextProps.previewMarker
         })
-        this.updateMarkers();
+        this.updateMarkers();*/
     }
 
-    updateMarkers() {
-        this.props.previewMarker ? this.makePreview() :  this.fetchMarkers()
-    }
-    
     async fetchMarkers(){
         const markers = await this.fetchData()
         this.setState({markers})
     }
 
     componentDidMount() {
-        this.updateMarkers();
+        //this.updateMarkers();
     }
 
+    updateMarkers() {
+        console.log('update', this.state)
+        this.state.previewMarker ? this.makePreview() :  this.fetchMarkers()
+    }
+    
     makePreview() {
-        const previewMarker = this.props.previewMarker;
+        const previewMarker = this.state.previewMarker;
+        console.log('previewing', previewMarker)
         this.setState({ markers: [
             {
                 latitude : previewMarker.latitude,
@@ -68,35 +70,8 @@ export class MapContainer extends React.Component {
             showingInfoWindow: true,
         })
     }
-    // §generally don't call this in constructor, better in componentDidMount
-    fetchData = () => {
-        /* Here we fetch markers from our database instead of declaring an
-        arbitrary array. */
-        return new Promise((resolve, reject) => {
-          fetch("http://localhost:4000/api/addresses/markers")
-		     .then(async resp => {
-           const data = await resp.json()
-           resolve(data)
-           // data.forEach(item => console.log(item))
-             // console.log("in resp", resp.json())
-             // Object.entries(resp.json()).forEach (
-             //   ([
-             // )
 
 
-      /*resp.map(this.setState({
-                markers: [
-                    <Marker onClick={this.onMarkerClick}
-                            name={users[0].firstName}
-                            user={users[0]}
-                            position={{lat: 37.759703, lng: -122.428093}} />
-                ]
-            }, () => {console.log('just set state')}) */
-
-        })
-        .catch((err) => { console.log(err); reject(err) })
-      })
-    }
 
     renderSelectedPlace = () => {
         const {selectedPlace} = this.state;
@@ -109,10 +84,6 @@ export class MapContainer extends React.Component {
     }
 
     render() {
-        //const {selectedPlace} = this.state;
-        if (this.state.markers === null) {
-          return (<div></div>);
-        }
         return (
             <div>
             {this.props.children}
@@ -120,15 +91,15 @@ export class MapContainer extends React.Component {
                 <Map
                     google={this.props.google} zoom={14}
                     center={{
-                        lat: this.state.mapCenterLat,
-                        lng: this.state.mapCenterLng
+                        lat: this.props.mapCenterLat,
+                        lng: this.props.mapCenterLng
                     }}
                     initialCenter={{
-                        lat: this.state.mapCenterLat,
-                        lng: this.state.mapCenterLng
+                        lat: this.props.mapCenterLat,
+                        lng: this.props.mapCenterLng
                     }}
                 >
-                    {this.state.markers.map((item, key) => {
+                    {this.props.markers.map((item, key) => {
                         return <Marker
                             key={key}
                             title={item.user.firstName + " " + item.user.lastName}

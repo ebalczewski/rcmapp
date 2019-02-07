@@ -66,7 +66,10 @@ router.post('/createAddress', function(req, res) {
 			defaults:{
 				firstName: data.firstName,
 				lastName: data.lastName,
-				batch: data.batch
+				batch: data.batch,
+				social: data.social,
+				tech: data.tech,
+				stay: data.stay
 			}
 		}
 	).spread((user, created) => {
@@ -77,8 +80,11 @@ router.post('/createAddress', function(req, res) {
 			userId: user.id
 		})
 		.then((address) => {
-			user.addAddress(address).then((result) => res.end())
-		})
+			user.addAddress(address).then((result) => {
+				console.log('resolve', result);
+				res.end()
+			})
+		}).catch((err) => {console.log(err)})
 	})
 })
 

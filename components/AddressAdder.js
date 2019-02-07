@@ -32,5 +32,3 @@ function getRandomArbitrary(min, max) {
   }
 
 export default AddressAdder;
-
-
