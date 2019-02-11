@@ -80,7 +80,7 @@ class GoogleContainer extends React.Component {
         /* Here we fetch markers from our database instead of declaring an
         arbitrary array. */
         return new Promise((resolve, reject) => {
-          fetch("http://localhost:4000/api/addresses/markers")
+          fetch("http://localhost:4000/api/addresses")
 		     .then(async resp => {
            const data = await resp.json()
            resolve(data)

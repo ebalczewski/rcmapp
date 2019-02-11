@@ -17,7 +17,7 @@ router.get('/users/:userId/addresses/coordinates/', function (req, res) {
 	});
 });
 
-router.get('/addresses/markers', function(req, res){
+router.get('/addresses', function(req, res){
 	Address.findAll({
 		include: [
 			{
@@ -25,35 +25,25 @@ router.get('/addresses/markers', function(req, res){
 			}
 		]
 	}).then((addresses) => {
-		markers = [];
+		/*
+		Multiple users can belong to a single address, but our frontend logic
+		looks for a single User to display info for.
+		
+		Here we arbitrarily assign the first User associated with an Address as
+		the user to display info about on the frontend.
+		*/
+		userAssignedAddresses = [];
 		addresses.map((address, key) => {
 			user = address.users[0];
-			console.log(user);
-			markers.push({
+			userAssignedAddresses.push({
 				user: user,
 				latitude: address.latitude,
 				longitude: address.longitude,
 			})
 		})
-		res.json(markers);
+		res.json(userAssignedAddresses);
 	})
 })
-
-// 	// Address.findAll({
-// 	// 	include: [{
-// 	// 		model: [user]
-// 	// 	}]
-// 	// }).then(function(addresses) {
-// 	// 	res.json(addresses);
-// 	// });
-
-// // function getById(model, id) {
-// // 	return model.findOne({
-// // 		where: {
-// // 			id: id
-// // 		}
-// // 	})
-// // };
 
 router.post('/createUser', function(req, res) {
 	User.create(req.body);
