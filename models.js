@@ -53,11 +53,23 @@ const Address = sequelize.define('address', {
   }
 });
 
+const Token = sequelize.define('token', {
+  token: {
+    type: Sequelize.STRING
+  },
+  expiration: {
+    type: Sequelize.DATE
+  }
+});
+
+User.hasMany(Token);
+
 Address.hasMany(User);
 
 sequelize.sync()
 
 module.exports = {
   User,
-  Address
+  Address,
+  Token
 }
