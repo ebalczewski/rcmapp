@@ -4,6 +4,17 @@ const router = express.Router();
 var { User, Address, User_Address, Address_User} = require("../models.js");
 
 
+router.get('/users', function (req, res) {
+	User.findAll().then(function(users) {
+		res.json(users);
+	});
+});
+
+router.post('/users', function(req, res) {
+	User.create(req.body);
+})
+
+
 router.get('/users/:userId/addresses/coordinates/', function (req, res) {
 	let userId = req.params.userId;
 
@@ -16,6 +27,7 @@ router.get('/users/:userId/addresses/coordinates/', function (req, res) {
 		})
 	});
 });
+
 
 router.get('/addresses', function(req, res){
 	Address.findAll({
@@ -45,46 +57,22 @@ router.get('/addresses', function(req, res){
 	})
 })
 
-router.post('/createUser', function(req, res) {
-	User.create(req.body);
-})
-
-router.post('/createAddress', function(req, res) {
-	let data = req.body
-	User.findOrCreate(
-		{
-			where:{email: data.email},
-			defaults:{
-				firstName: data.firstName,
-				lastName: data.lastName,
-				batch: data.batch,
-				social: data.social,
-				tech: data.tech,
-				stay: data.stay
-			}
-		}
-	).spread((user, created) => {
-		Address.create({
-			current: data.current,
-			latitude: data.latitude,
-			longitude: data.longitude
-		})
-		.then((address) => {
-			address.addUser(user)
-			.then((result) => {
-				res.json(result);
-			})
-		})
-		.catch((err) => {console.log(err)})
+router.post('/addresses', function(req, res) {
+	let data = req.body;
+	Address.create({
+		current: data.current,
+		latitude: data.latitude,
+		longitude: data.longitude,
+	})
+	.then((address) => {
+		address.addUser(data.userId)
+		res.json(address);
+	})
+	.catch((err) => {
+		console.log(err)
 	})
 })
 
-
-router.get('/users', function (req, res) {
-	User.findAll().then(function(users) {
-		res.json(users);
-	});
-});
 
 module.exports = router;
 // app.listen(port, () => console.log(`Serving on port ${port}.`))

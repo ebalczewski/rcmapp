@@ -32,12 +32,22 @@ router.get('/authorize', (req, res) => {
     let client = hackerschool.client();
     client.setToken(token);
     client.people.me()
-    .then(function(user) {
-      res.cookie('firstName', user.first_name);
-      res.cookie('lastName', user.last_name);
-      res.cookie('userEmail', user.email);
-      res.cookie('batches', JSON.stringify(user.batches));
-      res.redirect('/');
+    .then(function(RCData) {
+      let userData = {
+        firstName: RCData.first_name,
+        lastName: RCData.last_name,
+        email: RCData.email,
+        batches: JSON.stringify(RCData.batches),
+      }
+      User.findOrCreate({where: {email: RCData.email}, defaults: userData})
+      .spread((user, created) => {
+        res.cookie('userId', user.id)
+        res.cookie('userEmail', userData.email);
+        res.cookie('firstName', userData.firstName);
+        res.cookie('lastName', userData.lastName);
+        res.cookie('batches', userData.batches);
+        res.redirect('/');
+      })
     })
   })
   .catch((err)   => { 
