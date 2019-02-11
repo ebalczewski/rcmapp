@@ -5,8 +5,7 @@ import Router from 'next/router'
 import Button from "./stateless/Button"
 
 import MapContainer from './MapContainer';
-import AddressSearcher from './AddressSearcher';
-import AddressAdder from './AddressAdder';
+import AddressInputWrapper from './AddressInputWrapper';
 
 class GoogleContainer extends React.Component {
     constructor(props) {
@@ -40,7 +39,7 @@ class GoogleContainer extends React.Component {
 
     addAddress = async () => {
         try {
-            console.log('addAddress')
+            
             const result = await fetch("http://localhost:4000/api/createAddress",{
                 method: "POST",
                 body: JSON.stringify({
@@ -61,7 +60,7 @@ class GoogleContainer extends React.Component {
                 }
             })
             console.log(result)
-            console.log('after post')
+            
             Router.push('/')
 
         } catch(err) {
@@ -77,8 +76,6 @@ class GoogleContainer extends React.Component {
     }
 
     fetchData = () => {
-        /* Here we fetch markers from our database instead of declaring an
-        arbitrary array. */
         return new Promise((resolve, reject) => {
           fetch("http://localhost:4000/api/addresses")
 		     .then(async resp => {
@@ -90,13 +87,14 @@ class GoogleContainer extends React.Component {
     }
 
     renderSearch = () => { 
-    console.log(this.state)
+    
     return (
         <MapContainer
              mapCenterLat = {this.state.mapCenterLat}
              mapCenterLng = {this.state.mapCenterLng}
              markers = {this.state.markers} >
-            <AddressSearcher
+            <AddressInputWrapper
+                isAdd = {this.state.isAdd}
                 updateGoogleContainer = {this.updateGoogleContainer.bind(this)}
             />
         </MapContainer>);
@@ -125,21 +123,23 @@ class GoogleContainer extends React.Component {
         return (
         <div>
             <p>How may other Recursers contact you?</p>
-            <input type="checkbox" id="Social" name="Social" onClick={()=>{this.setState({social: true})}}/><label for="Social">Social</label>
-            <input type="checkbox" id="Tech" name="Tech" onClick={()=>{this.setState({tech: true})}}/><label for="Tech">Tech</label>
-            <input type="checkbox" id="Stay" name="Stay" onClick={()=>{this.setState({stay: true})}}/><label for="Stay">Stay</label>
+
+            <input type="checkbox" id="Social" name="Social" onClick={()=>{this.setState({social: true})}}/><label htmlFor="Social">Social</label>
+            <input type="checkbox" id="Tech" name="Tech" onClick={()=>{this.setState({tech: true})}}/><label htmlFor="Tech">Tech</label>
+            <input type="checkbox" id="Stay" name="Stay" onClick={()=>{this.setState({stay: true})}}/><label htmlFor="Stay">Stay</label>
         
-        <MapContainer
-            markers = {markers}
-            mapCenterLat = {this.state.mapCenterLat}
-            mapCenterLng = {this.state.mapCenterLng} >
-           <AddressAdder
-               updateGoogleContainer = {(latitude, longitude) => {
-                   this.previewLocation(latitude, longitude);
-                }}
-           />
-       </MapContainer>
-       {addButton}
+            <MapContainer
+                markers = {markers}
+                mapCenterLat = {this.state.mapCenterLat}
+                mapCenterLng = {this.state.mapCenterLng} >
+                <AddressInputWrapper
+                    isAdd = {this.state.isAdd}
+                    updateGoogleContainer = {(latitude, longitude) => {
+                    this.previewLocation(latitude, longitude);
+                    }}
+                />
+                {addButton}
+            </MapContainer>
        </div>);
     }
 

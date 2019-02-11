@@ -1,11 +1,15 @@
 import React from 'react';
 import AddressInput from './AddressInput';
 
-class AddressAdder extends React.Component {
+class AddressInputWrapper extends React.Component {
 
     handleSubmit = (latitude, longitude) => {
-        let fuzzy_coords = fuzz_coordinates(latitude, longitude, 500);
-        this.props.updateGoogleContainer(fuzzy_coords[0], fuzzy_coords[1]);
+        if (this.props.isAdd) {
+            const fuzzy_coords = fuzz_coordinates(latitude, longitude, 500);
+            latitude = fuzzy_coords[0];
+            longitude = fuzzy_coords[1];
+        }
+        this.props.updateGoogleContainer(latitude, longitude);
     }
 
     render() {
@@ -31,4 +35,4 @@ function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
 
-export default AddressAdder;
+export default AddressInputWrapper;
