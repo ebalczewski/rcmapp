@@ -10,7 +10,7 @@ const API_KEY = process.env.GOOGLE_MAPS_PLACES_API_KEY
 class AddressInput extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
+    
     this.state = { 
       address: "",
     };

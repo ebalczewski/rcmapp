@@ -10,10 +10,9 @@ const PageWrapper = WrappedComponent => {
     return class extends React.Component {
 
         static async getInitialProps(ctx) {
-            console.log(ctx);
-            const { firstName } = cookies(ctx);
-            console.log(firstName)
-            if (firstName !== undefined) {
+            const { userEmail } = cookies(ctx);
+    
+            if (userEmail !== undefined) {
               return {
                 ...cookies(ctx),
                 authUrl: 'http://localhost:4000/auth/logout',
@@ -41,7 +40,7 @@ const PageWrapper = WrappedComponent => {
         }
 
         render() {
-            return <WrappedComponent renderPage = {this.renderPage}{...this.props}/>
+            return <WrappedComponent renderPage = {this.renderPage} {...this.props}/>
         }
     }
 }
