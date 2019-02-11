@@ -38,22 +38,15 @@ class GoogleContainer extends React.Component {
     }
 
     addAddress = async () => {
-        try {
-            
-            const result = await fetch("http://localhost:4000/api/createAddress",{
+        try {            
+            const result = await fetch("http://localhost:4000/api/addresses",{
                 method: "POST",
                 body: JSON.stringify({
-                current: true, 
-                latitude: this.state.mapCenterLat, 
-                longitude: this.state.mapCenterLng,
-                email: this.props.email,
-                firstName: this.props.firstName,
-                lastName: this.props.lastName,
-                batch: this.props.batch,
-                social: this.state.social,
-                tech: this.state.tech,
-                stay: this.state.stay
-            }),
+                    current: true, 
+                    latitude: this.state.mapCenterLat, 
+                    longitude: this.state.mapCenterLng,
+                    userId: this.props.userId,
+                }),
                 headers: {
                     'Accept': "application",
                     'Content-Type' : "application/json"
@@ -77,7 +70,7 @@ class GoogleContainer extends React.Component {
 
     fetchData = () => {
         return new Promise((resolve, reject) => {
-          fetch("http://localhost:4000/api/addresses/markers")
+          fetch("http://localhost:4000/api/addresses")
 		     .then(async resp => {
            const data = await resp.json()
            resolve(data)

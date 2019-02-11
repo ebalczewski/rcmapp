@@ -29,6 +29,7 @@ const PageWrapper = WrappedComponent => {
                     <BootstrapLink/>
                     <Banner name={this.props.firstName} authUrl={this.props.authUrl} authText={this.props.authText} />
                     <GoogleContainer
+                        userId = {this.props.userId}
                         firstName = {this.props.firstName}
                         lastName = {this.props.lastName}
                         batch = {this.props.userBatches}
