@@ -2,6 +2,8 @@ import React from 'react';
 
 import Banner from '../components/stateless/Banner';
 import GoogleContainer from '../components/GoogleContainer';
+import BootstrapLink from 
+'../components/stateless/BootstrapLink';
 
 import cookies from 'next-cookies';
 
@@ -21,7 +23,9 @@ export default class extends React.Component {
 
   render() {
       return(
+
         <div>
+          <BootstrapLink/>
           <Banner name={this.props.firstName} authUrl={this.props.authUrl} authText={this.props.authText} />
           <GoogleContainer
             firstName = {this.props.firstName}
