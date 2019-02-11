@@ -53,8 +53,7 @@ const Address = sequelize.define('address', {
   }
 });
 
-User.belongsToMany(Address, {through: 'UserAddress'});
-Address.belongsToMany(User, {through: 'UserAddress'});
+Address.hasMany(User);
 
 sequelize.sync()
 
@@ -62,4 +61,3 @@ module.exports = {
   User,
   Address
 }
-

@@ -28,6 +28,7 @@ router.get('/addresses/markers', function(req, res){
 		markers = [];
 		addresses.map((address, key) => {
 			user = address.users[0];
+			console.log(user);
 			markers.push({
 				user: user,
 				latitude: address.latitude,
@@ -76,15 +77,15 @@ router.post('/createAddress', function(req, res) {
 		Address.create({
 			current: data.current,
 			latitude: data.latitude,
-			longitude: data.longitude,
-			userId: user.id
+			longitude: data.longitude
 		})
 		.then((address) => {
-			user.addAddress(address).then((result) => {
-				console.log('resolve', result);
-				res.end()
+			address.addUser(user)
+			.then((result) => {
+				res.json(result);
 			})
-		}).catch((err) => {console.log(err)})
+		})
+		.catch((err) => {console.log(err)})
 	})
 })
 
