@@ -73,6 +73,25 @@ router.post('/addresses', function(req, res) {
 	})
 })
 
+router.put('/addresses/:addressId'), function(req, res) {
+	let addressId = req.params.addressId;
+	Address.findById(addressId).then(address => {
+		address.update(req.body)
+		.then(() => {
+			res.json({'success': true});
+		})
+	})
+}
+
+router.delete('/addresses/:addressId'), function(req, res) {
+	let addressId = req.params.addressId;
+	Address.findById(addressId).then(address => {
+		address.destroy()
+		.then(() => {
+			res.json({'success': true});
+		})
+	})
+}
 
 module.exports = router;
 // app.listen(port, () => console.log(`Serving on port ${port}.`))
