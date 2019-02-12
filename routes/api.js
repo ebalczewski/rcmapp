@@ -1,35 +1,42 @@
 const express = require('express');
 const router = express.Router();
 
-var { User, Address, User_Address, Address_User} = require("../models.js");
+var { User, Address, Token } = require("../models.js");
 
+function authenticate (req, res, next) {
+	if (req.cookies) {
+		Token.findById(req.cookies.token)
+		.then(row => 
+			{
+				const currentTime = new Date();
+				if (currentTime < row.expiration) {
+					next();
+				} else {
+					res.clearCookie('token');
+					res.redirect('/login');
+				}
+			})
+		.catch(err => {
+			console.log(err);
+			res.clearCookie('token');
+			res.redirect('/login');
+		})
+	} else {
+		res.redirect('/login');
+	}
+}
 
-router.get('/users', function (req, res) {
+router.get('/users', authenticate, (req, res) => {
 	User.findAll().then(function(users) {
 		res.json(users);
 	});
 });
 
-router.post('/users', function(req, res) {
+router.post('/users', authenticate, (req, res) => {
 	User.create(req.body);
-})
-
-
-router.get('/users/:userId/addresses/coordinates/', function (req, res) {
-	let userId = req.params.userId;
-
-	getById(User, userId).then(function(user) {
-		user.getAddresses().then(function(addresses) {
-
-			//what to do about multiple addresses? have a "current" tag?
-			res.json({latitude: addresses[0].latitude,
-					longitude: addresses[0].longitude});
-		})
-	});
 });
 
-
-router.get('/addresses', function(req, res){
+router.get('/addresses', authenticate, (req, res) => {
 	Address.findAll({
 		include: [
 			{
@@ -57,7 +64,7 @@ router.get('/addresses', function(req, res){
 	})
 })
 
-router.post('/addresses', function(req, res) {
+router.post('/addresses', authenticate, (req, res) => {
 	let data = req.body;
 	Address.create({
 		current: data.current,
@@ -73,6 +80,4 @@ router.post('/addresses', function(req, res) {
 	})
 })
 
-
 module.exports = router;
-// app.listen(port, () => console.log(`Serving on port ${port}.`))
