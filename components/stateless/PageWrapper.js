@@ -28,14 +28,13 @@ const PageWrapper = WrappedComponent => {
                 <div>
                     <BootstrapLink/>
                     <Banner firstName={this.props.firstName} authUrl={this.props.authUrl} authText={this.props.authText} />
-                    {/* <GoogleContainer
-                        userId = {this.props.userId}
+                    <GoogleContainer
                         firstName = {this.props.firstName}
                         lastName = {this.props.lastName}
-                        batch = {this.props.userBatches}
-                        email = {this.props.userEmail}
+                        batch = {this.props.batches}
+                        email = {this.props.email}
                         isAdd = {isAdd}
-                    /> */}
+                    />
                 </div>
               );
         }

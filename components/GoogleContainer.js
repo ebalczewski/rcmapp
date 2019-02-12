@@ -15,11 +15,18 @@ class GoogleContainer extends React.Component {
             isPreviewing: false,
             mapCenterLat: 40.691332,
             mapCenterLng: -73.985059,
-            markers: [],
+            userInfo: [],
             social: false,
             tech: false,
             stay: false
         };
+    }
+
+    async componentDidMount() {
+        const userInfo = await this.fetchData()
+        this.setState({
+            userInfo: userInfo
+        })
     }
 
     updateGoogleContainer = (latitude, longitude) => {
@@ -36,40 +43,21 @@ class GoogleContainer extends React.Component {
             isPreviewing: true
         })
     }
-    addPreference = async () => {
+
+    addUserInfo = async () => {
         try {            
-            const result = await fetch("http://localhost:4000/api/preferences",{
+            const result = await fetch("http://localhost:4000/api/user_info",{
                 method: "POST",
                 body: JSON.stringify({
+                    email: this.props.email,
+                    first_name: this.props.firstName,
+                    last_name: this.props.lastName,
+                    batches: this.props.batches,
                     social: this.state.social, 
                     tech: this.state.tech,
-                    stay: this.props.stay,
-                    userId: this.props.userId
-                }),
-                headers: {
-                    'Accept': "application",
-                    'Content-Type' : "application/json"
-                }
-            })
-            console.log(result)
-            
-            Router.push('/')
-
-        } catch(err) {
-            console.log(err)
-        }
-
-    }
-
-    addAddress = async () => {
-        try {            
-            const result = await fetch("http://localhost:4000/api/addresses",{
-                method: "POST",
-                body: JSON.stringify({
-                    current: true, 
+                    stay: this.state.stay,
                     latitude: this.state.mapCenterLat, 
                     longitude: this.state.mapCenterLng,
-                    userId: this.props.userId,
                 }),
                 headers: {
                     'Accept': "application",
@@ -77,63 +65,55 @@ class GoogleContainer extends React.Component {
                 }
             })
             console.log(result)
-            
             Router.push('/')
 
         } catch(err) {
             console.log(err)
         }
-    }
-
-    async componentDidMount() {
-        const markers = await this.fetchData()
-        this.setState({
-            markers: markers
-        })
     }
 
     fetchData = () => {
         return new Promise((resolve, reject) => {
-          fetch("http://localhost:4000/api/addresses")
+          fetch("http://localhost:4000/api/user_info")
 		     .then(async resp => {
-           const data = await resp.json()
-           resolve(data)
-        }).catch((err) => { console.log(err); reject(err) })
+                const data = await resp.json()
+                resolve(data)
+            }).catch((err) => { 
+                console.log(err); 
+                reject(err) })
         })
     }
 
     renderSearch = () => { 
-    
-    return (
-        <MapContainer
-             mapCenterLat = {this.state.mapCenterLat}
-             mapCenterLng = {this.state.mapCenterLng}
-             markers = {this.state.markers} >
-            <AddressInputWrapper
-                isAdd = {this.state.isAdd}
-                updateGoogleContainer = {this.updateGoogleContainer.bind(this)}
-            />
-        </MapContainer>);
+        return (
+            <MapContainer
+                mapCenterLat = {this.state.mapCenterLat}
+                mapCenterLng = {this.state.mapCenterLng}
+                userInfo = {this.state.userInfo} >
+                <AddressInputWrapper
+                    isAdd = {this.state.isAdd}
+                    updateGoogleContainer = {this.updateGoogleContainer.bind(this)}
+                />
+            </MapContainer>
+        );
     }
 
     renderPreview = () => {
-        let markers;
+        let userInfo;
         if (this.state.isPreviewing) {
-            markers = [{
+            userInfo = [{
                 latitude : this.state.mapCenterLat,
                 longitude : this.state.mapCenterLng,
-                user : {
-                    firstName : this.props.firstName,
-                    lastName : this.props.lastName
-                }
-            }];
+                firstName : this.props.firstName,
+                lastName : this.props.lastName
+                }];
         } else {
-            markers = [];
+            userInfo = [];
         }
 
         const addButton =
-            markers.length === 1 ?
-            <Button type = "submit" onClick = {() => {this.addAddress();this.addPreference()}} title = "Add Address"/> :
+            userInfo.length === 1 ?
+            <Button type = "submit" onClick = {() => {this.addUserInfo()}} title = "Add Address"/> :
             <div></div>
 
         return (
@@ -145,7 +125,7 @@ class GoogleContainer extends React.Component {
             <input type="checkbox" id="Stay" name="Stay" onClick={()=>{this.setState({stay: true})}}/><label htmlFor="Stay">Stay</label>
         
             <MapContainer
-                markers = {markers}
+                userInfo = {userInfo}
                 mapCenterLat = {this.state.mapCenterLat}
                 mapCenterLng = {this.state.mapCenterLng} >
                 <AddressInputWrapper

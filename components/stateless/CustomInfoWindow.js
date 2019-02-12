@@ -90,7 +90,7 @@ export class InfoWindow extends React.Component {
             '<div id="siteNotice">'+
             '</div>'+
             '<h2 id="firstHeading" class="firstHeading">' + 
-            item.firstName + " " + item.lastName +
+            item.first_name + " " + item.last_name +
             '</h2>'+
             '<div id="bodyContent">'+
             '<ul>' +
