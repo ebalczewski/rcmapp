@@ -3,7 +3,7 @@ const router = express.Router();
 
 const hackerschool = require('hackerschool-api');
 
-var { User, Address, Token } = require("../models.js");
+var { User, UserInfo } = require("../models.js");
 
 const authenticator = hackerschool.auth({
     client_id: process.env.RECURSE_ID,
@@ -27,37 +27,24 @@ router.get('/logout', (req, res) => {
 router.get('/authorize', (req, res) => {
   const code = req.query.code;
 
-  authenticator.getToken(code)
-  .then((token) => {
-
+  authenticator.getToken(code).then((token) => {
     let accessToken = token.token.access_token;
     let client = hackerschool.client();
     client.setToken(token);
-    Token.findOrCreate({where: {token: accessToken}, defaults: {expiration: token.token.expires_at}})
-    
-    client.people.me()
-    .then(function(RCData) {
-      let userData = {
-        firstName: RCData.first_name,
-        lastName: RCData.last_name,
-        email: RCData.email,
-        batches: RCData.batches
-        .map(batch => batch.name)
-        .join('; '),
-      }
-      User.findOrCreate({where: {email: RCData.email}, defaults: userData})
-      .spread((user, created) => {
-        res.cookie('userId', user.id)
-        res.cookie('userEmail', userData.email);
-        res.cookie('firstName', userData.firstName);
-        res.cookie('lastName', userData.lastName);
-        res.cookie('batches', userData.batches);
+    client.people.me().then(function(RCData) {
+      User.findOrCreate({where: {token: accessToken}, defaults: {expiration: token.token.expires_at, email: RCData.email}})
+      .spread(user => {
+        res.cookie('email', RCData.email);
+        res.cookie('firstName', RCData.firstName);
+        res.cookie('lastName', RCData.lastName);
+        res.cookie('batches', RCData.batches);
         res.cookie('token', accessToken);
         res.redirect('/');
       })
     })
   })
-  .catch((err)   => { 
+  .catch((err) => {
+    console.log(err);
     res.redirect('/')
   });
 });

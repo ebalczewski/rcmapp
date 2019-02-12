@@ -1,21 +1,23 @@
 const express = require('express');
 const router = express.Router();
-var { User, Address, Token, Preference, sequelize} = require("../models.js");
+var { User, UserInfo} = require("../models.js");
 
 function authenticate (req, res, next) {
 	if (req.cookies) {
-		Token.findById(req.cookies.token)
-		.then(row => 
-			{
+		User.findById(req.cookies.token).then(user => {
+			if (user !== null) {
 				const currentTime = new Date();
-				if (currentTime < row.expiration) {
+				if (currentTime < user.expiration && user.email === req.cookies.email) {
 					next();
 				} else {
 					res.clearCookie('token');
 					res.redirect('/login');
 				}
-			})
-		.catch(err => {
+			} else {
+				res.clearCookie('token');
+				res.redirect('/login');
+			}
+		}).catch(err => {
 			console.log(err);
 			res.clearCookie('token');
 			res.redirect('/login');
@@ -25,56 +27,54 @@ function authenticate (req, res, next) {
 	}
 }
 
-router.get('/users', authenticate, (req, res) => {
-	User.findAll().then(function(users) {
-		res.json(users);
-	});
-});
-
-router.post('/preferences', authenticate, (req, res) => {
-	let data = req.body;
-	Preference.create({
-		social: data.social,
-		tech: data.tech,
-		stay: data.stay,
-	})
-	.then((preference) => {
-		preference.setUser(data.userId)    
-		res.json(preference);
-	})
-	.catch((err) => {
-		console.log(err)
-	})
-});
-
-router.post('/users', authenticate, (req, res) => {
-	User.create(req.body);
-});
-
-/* "SELECT userId, addressId, users.preferenceId, users.firstName, users.lastName, preferences.tech, preferences.social, preferences.stay FROM UserAddress LEFT JOIN users ON users.id=UserId LEFT JOIN preferences ON preferences.id=users.preferenceId" */
-
-router.get('/addresses', authenticate, (req, res) => {
-	sequelize.query(
-		"SELECT userId, addressId, users.preferenceId, users.firstName, users.lastName, users.email,  preferences.tech, preferences.social, preferences.stay, addresses.latitude, addresses.longitude FROM UserAddress LEFT JOIN users ON users.id=UserId LEFT JOIN preferences ON preferences.id=users.preferenceId LEFT JOIN addresses ON addresses.id=addressId", 
-		{type: sequelize.QueryTypes.SELECT}
-	).then(results => {
+router.get('/user_info', authenticate, (req, res) => {
+	UserInfo.findAll().then(results => {
 		res.json(results);
+	})
+	.catch(err => {
+		res.end(err);
 	})
 })
 
-router.post('/addresses', authenticate, (req, res) => {
-	let data = req.body;
-	Address.create({
-		current: data.current,
-		latitude: data.latitude,
-		longitude: data.longitude,
+router.post('/user_info', authenticate, (req, res) => {
+	UserInfo.create(req.body).then(() => {
+		res.json({success: true})
+	}).catch(err => {
+		res.end(err);
 	})
-	.then((address) => {
-		address.addUser(data.userId)
-		res.json(address);
+})
+
+router.put('/user_info/:email', authenticate, (req, res) => {
+	UserInfo.find({where: {email: req.params.email}})
+	.then(userInfo => {
+		userInfo.update(req.body);
+		res.json({success: true})
+	}).catch(err => {
+		res.end(err);
 	})
-	.catch((err) => {
-		console.log(err)
+})
+
+router.get('/user_info/:email', authenticate, (req, res) => {
+	UserInfo.find({where: {email: req.params.email}})
+	.then(userInfo => {
+		res.json(userInfo);
+	}).catch(err => {
+		res.end(err);
+	})
+})
+
+router.delete('/user_info/:email', authenticate, (req, res) => {
+	UserInfo.find({where: {email: req.params.email}})
+	.then(userInfo => {
+		userInfo.destroy()
+		.then(() => {
+			res.json({success: true})
+		})
+		.catch(err => {
+			res.end(err);
+		})
+	}).catch(err => {
+		res.end(err);
 	})
 })
 
