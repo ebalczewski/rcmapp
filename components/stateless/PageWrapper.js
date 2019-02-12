@@ -10,9 +10,9 @@ const PageWrapper = WrappedComponent => {
     return class extends React.Component {
 
         static async getInitialProps(ctx) {
-            const { userEmail } = cookies(ctx);
+            const { token } = cookies(ctx);
     
-            if (userEmail !== undefined) {
+            if (token !== undefined) {
               return {
                 ...cookies(ctx),
                 authUrl: 'http://localhost:4000/auth/logout',

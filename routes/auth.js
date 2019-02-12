@@ -3,7 +3,7 @@ const router = express.Router();
 
 const hackerschool = require('hackerschool-api');
 
-var { User, Address } = require("../models.js");
+var { User, Address, Token } = require("../models.js");
 
 const authenticator = hackerschool.auth({
     client_id: process.env.RECURSE_ID,
@@ -19,7 +19,7 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  res.clearCookie('userEmail');
+  res.clearCookie('token');
   res.redirect('/');
 })
 
@@ -29,15 +29,23 @@ router.get('/authorize', (req, res) => {
 
   authenticator.getToken(code)
   .then((token) => {
+    //Call user endpoint. If user exists, check stored token against one in cookies. If expired, reauthenticate and store. If not a match, reauthenticate and store.
+    //If user does not exist, make them authenticate and then create user with their token.
+
+    let accessToken = token.token.access_token;
     let client = hackerschool.client();
     client.setToken(token);
+    Token.findOrCreate({where: {token: accessToken}, defaults: {expiration: token.token.expires_at}})
+    
     client.people.me()
     .then(function(RCData) {
       let userData = {
         firstName: RCData.first_name,
         lastName: RCData.last_name,
         email: RCData.email,
-        batches: JSON.stringify(RCData.batches),
+        batches: RCData.batches
+        .map(batch => batch.name)
+        .join('; '),
       }
       User.findOrCreate({where: {email: RCData.email}, defaults: userData})
       .spread((user, created) => {
@@ -46,6 +54,7 @@ router.get('/authorize', (req, res) => {
         res.cookie('firstName', userData.firstName);
         res.cookie('lastName', userData.lastName);
         res.cookie('batches', userData.batches);
+        res.cookie('token', accessToken);
         res.redirect('/');
       })
     })
@@ -54,12 +63,5 @@ router.get('/authorize', (req, res) => {
     res.redirect('/')
   });
 });
-
-router.get('/users', function (req, res) {
-	User.findAll().then(function(users) {
-		res.json(users);
-	});
-});
-
 
 module.exports = router;

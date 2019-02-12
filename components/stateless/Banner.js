@@ -24,8 +24,7 @@ export class Banner extends React.Component {
 
                 <div className="p-2">
                     <a href={this.props.authUrl}>{this.props.authText}</a>
-                </div>
-                
+                </div> 
             </div>
         )
     }

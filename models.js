@@ -55,6 +55,7 @@ const Address = sequelize.define('address', {
 
 const Token = sequelize.define('token', {
   token: {
+    primaryKey: true,
     type: Sequelize.STRING
   },
   expiration: {
