@@ -10,21 +10,22 @@ function authenticate (req, res, next) {
 				if (currentTime < user.expiration && user.email === req.cookies.email) {
 					next();
 				} else {
-					res.clearCookie('token');
-					res.redirect('/login');
+					invalidLogin(res);
 				}
 			} else {
-				res.clearCookie('token');
-				res.redirect('/login');
+				invalidLogin(res);
 			}
 		}).catch(err => {
 			console.log(err);
-			res.clearCookie('token');
-			res.redirect('/login');
 		})
 	} else {
 		res.redirect('/login');
 	}
+}
+
+function invalidLogin(res) {
+	res.clearCookie('token');
+	res.redirect('/login');
 }
 
 function checkOwnership (req, res, next) {

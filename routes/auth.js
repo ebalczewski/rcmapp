@@ -15,7 +15,7 @@ const authenticator = hackerschool.auth({
 const authUrl = authenticator.createAuthUrl();
 
 router.get('/login', (req, res) => {
-  res.json({ authUrl : authUrl })
+  res.json({authUrl: authUrl});
 });
 
 router.get('/logout', (req, res) => {
@@ -45,7 +45,7 @@ router.get('/authorize', (req, res) => {
   })
   .catch((err) => {
     console.log(err);
-    res.redirect('/')
+    res.end(err);
   });
 });
 
