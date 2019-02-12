@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-var { User, Address, Token } = require("../models.js");
+var { User, Address, Token, Preference, sequelize} = require("../models.js");
 
 function authenticate (req, res, next) {
 	if (req.cookies) {
@@ -32,35 +31,34 @@ router.get('/users', authenticate, (req, res) => {
 	});
 });
 
+router.post('/preferences', authenticate, (req, res) => {
+	let data = req.body;
+	Preference.create({
+		social: data.social,
+		tech: data.tech,
+		stay: data.stay,
+	})
+	.then((preference) => {
+		preference.setUser(data.userId)    
+		res.json(preference);
+	})
+	.catch((err) => {
+		console.log(err)
+	})
+});
+
 router.post('/users', authenticate, (req, res) => {
 	User.create(req.body);
 });
 
+/* "SELECT userId, addressId, users.preferenceId, users.firstName, users.lastName, preferences.tech, preferences.social, preferences.stay FROM UserAddress LEFT JOIN users ON users.id=UserId LEFT JOIN preferences ON preferences.id=users.preferenceId" */
+
 router.get('/addresses', authenticate, (req, res) => {
-	Address.findAll({
-		include: [
-			{
-				model: User
-			}
-		]
-	}).then((addresses) => {
-		/*
-		Multiple users can belong to a single address, but our frontend logic
-		looks for a single User to display info for.
-		
-		Here we arbitrarily assign the first User associated with an Address as
-		the user to display info about on the frontend.
-		*/
-		userAssignedAddresses = [];
-		addresses.map((address, key) => {
-			user = address.users[0];
-			userAssignedAddresses.push({
-				user: user,
-				latitude: address.latitude,
-				longitude: address.longitude,
-			})
-		})
-		res.json(userAssignedAddresses);
+	sequelize.query(
+		"SELECT userId, addressId, users.preferenceId, users.firstName, users.lastName, users.email,  preferences.tech, preferences.social, preferences.stay, addresses.latitude, addresses.longitude FROM UserAddress LEFT JOIN users ON users.id=UserId LEFT JOIN preferences ON preferences.id=users.preferenceId LEFT JOIN addresses ON addresses.id=addressId", 
+		{type: sequelize.QueryTypes.SELECT}
+	).then(results => {
+		res.json(results);
 	})
 })
 

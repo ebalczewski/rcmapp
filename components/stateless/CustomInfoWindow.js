@@ -84,21 +84,21 @@ export class InfoWindow extends React.Component {
   }
 
   updateContent() {
-    const user = this.props.marker.user;
+    const item = this.props.marker.item;
     this.infowindow.setContent(
         '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
             '<h2 id="firstHeading" class="firstHeading">' + 
-            user.firstName + " " + user.lastName +
+            item.firstName + " " + item.lastName +
             '</h2>'+
             '<div id="bodyContent">'+
             '<ul>' +
-                '<li>Social: ' + user.social + '</li>' +
-                '<li>Tech: ' + user.tech+ '</li>' +
-                '<li>Stay: ' + user.stay + '</li>' +
+                '<li>Social: ' + item.social + '</li>' +
+                '<li>Tech: ' + item.tech+ '</li>' +
+                '<li>Stay: ' + item.stay + '</li>' +
             '</ul>'+
-            '<p><a href="https://www.recurse.com/directory?q=' + user.email + '">'+
+            '<p><a href="https://www.recurse.com/directory?q=' + item.email + '">'+
             'Directory</a> </p>'+
             '</div>'+
             '</div>'

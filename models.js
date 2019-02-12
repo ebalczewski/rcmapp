@@ -23,7 +23,10 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING,
     allowNull: true,
     defaultValue: null
-  },
+  }
+});
+
+const Preference = sequelize.define('preference', {
   social: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
@@ -39,7 +42,8 @@ const User = sequelize.define('user', {
     allowNull: false,
     defaultValue: false
   }
-});
+})
+
 
 const Address = sequelize.define('address', {
   current: {
@@ -63,14 +67,21 @@ const Token = sequelize.define('token', {
   }
 });
 
+
 User.hasMany(Token);
 
-Address.hasMany(User);
+User.belongsTo(Preference);
+Preference.hasOne(User);
+
+User.belongsToMany(Address, {through: 'UserAddress'});
+Address.belongsToMany(User, {through: 'UserAddress'});
 
 sequelize.sync()
 
 module.exports = {
   User,
   Address,
-  Token
+  Token,
+  Preference,
+  sequelize
 }

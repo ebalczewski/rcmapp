@@ -36,6 +36,30 @@ class GoogleContainer extends React.Component {
             isPreviewing: true
         })
     }
+    addPreference = async () => {
+        try {            
+            const result = await fetch("http://localhost:4000/api/preferences",{
+                method: "POST",
+                body: JSON.stringify({
+                    social: this.state.social, 
+                    tech: this.state.tech,
+                    stay: this.props.stay,
+                    userId: this.props.userId
+                }),
+                headers: {
+                    'Accept': "application",
+                    'Content-Type' : "application/json"
+                }
+            })
+            console.log(result)
+            
+            Router.push('/')
+
+        } catch(err) {
+            console.log(err)
+        }
+
+    }
 
     addAddress = async () => {
         try {            
@@ -74,9 +98,8 @@ class GoogleContainer extends React.Component {
 		     .then(async resp => {
            const data = await resp.json()
            resolve(data)
+        }).catch((err) => { console.log(err); reject(err) })
         })
-        .catch((err) => { console.log(err); reject(err) })
-      })
     }
 
     renderSearch = () => { 
@@ -110,7 +133,7 @@ class GoogleContainer extends React.Component {
 
         const addButton =
             markers.length === 1 ?
-            <Button type = "submit" onClick = {this.addAddress.bind(this)} title = "Add Address"/> :
+            <Button type = "submit" onClick = {() => {this.addAddress();this.addPreference()}} title = "Add Address"/> :
             <div></div>
 
         return (

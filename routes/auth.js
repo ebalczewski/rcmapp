@@ -29,8 +29,6 @@ router.get('/authorize', (req, res) => {
 
   authenticator.getToken(code)
   .then((token) => {
-    //Call user endpoint. If user exists, check stored token against one in cookies. If expired, reauthenticate and store. If not a match, reauthenticate and store.
-    //If user does not exist, make them authenticate and then create user with their token.
 
     let accessToken = token.token.access_token;
     let client = hackerschool.client();
