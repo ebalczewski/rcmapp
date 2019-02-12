@@ -83,9 +83,9 @@ export class MapContainer extends React.Component {
                         {this.props.markers.map((item, key) => {
                             return <Marker
                                 key={key}
-                                title={item.user.firstName + " " + item.user.lastName}
-                                name={item.user.firstName + " " + item.user.lastName}
-                                user={item.user}
+                                title={item.firstName + " " + item.lastName}
+                                name={item.firstName + " " + item.lastName}
+                                item={item} // do we need this?
                                 position={{lat: item.latitude, lng: item.longitude}}
                                 onClick={this.onMarkerClick}
                             /> }
@@ -105,8 +105,6 @@ export class MapContainer extends React.Component {
         );
     }
 }
-
-
 
 export default GoogleApiWrapper({
     apiKey: API_KEY,
