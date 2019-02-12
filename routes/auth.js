@@ -3,7 +3,7 @@ const router = express.Router();
 
 const hackerschool = require('hackerschool-api');
 
-var { User, UserInfo } = require("../models.js");
+var { User } = require("../models.js");
 
 const authenticator = hackerschool.auth({
     client_id: process.env.RECURSE_ID,
@@ -35,8 +35,8 @@ router.get('/authorize', (req, res) => {
       User.findOrCreate({where: {token: accessToken}, defaults: {expiration: token.token.expires_at, email: RCData.email}})
       .spread(user => {
         res.cookie('email', RCData.email);
-        res.cookie('firstName', RCData.firstName);
-        res.cookie('lastName', RCData.lastName);
+        res.cookie('firstName', RCData.first_name);
+        res.cookie('lastName', RCData.last_name);
         res.cookie('batches', RCData.batches);
         res.cookie('token', accessToken);
         res.redirect('/');

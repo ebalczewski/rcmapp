@@ -18,13 +18,13 @@ export class MapContainer extends React.Component {
             selectedPlace: null,
             showingInfoWindow: false,
             activeMarker: false,
-            markers: null,
+            userInfo: null,
         }
     }
 
     async fetchMarkers(){
-        const markers = await this.fetchData()
-        this.setState({markers})
+        const userInfo = await this.fetchData()
+        this.setState({userInfo})
     }
 
     updateMarkers() {
@@ -34,14 +34,12 @@ export class MapContainer extends React.Component {
     makePreview() {
         const previewMarker = this.state.previewMarker;
         
-        this.setState({ markers: [
+        this.setState({ userInfo: [
             {
                 latitude : previewMarker.latitude,
                 longitude : previewMarker.longitude,
-                user : {
-                    firstName : previewMarker.firstName,
-                    lastName : previewMarker.lastName
-                }
+                firstName : previewMarker.firstName,
+                lastName : previewMarker.lastName
             }
         ]});
     }
@@ -80,7 +78,7 @@ export class MapContainer extends React.Component {
                             lng: this.props.mapCenterLng
                         }}
                     >
-                        {this.props.markers.map((item, key) => {
+                        {this.props.userInfo.map((item, key) => {
                             return <Marker
                                 key={key}
                                 title={item.firstName + " " + item.lastName}

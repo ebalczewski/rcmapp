@@ -15,7 +15,7 @@ export class Banner extends React.Component {
                     </Link>
                 </div>
                 <div className="p-2">
-                    <p>Hello, {this.props.name}!</p>
+                    <p>Hello, {this.props.firstName}!</p>
                 </div>
 
                 <div className="p-2 ml-auto">
