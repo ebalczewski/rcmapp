@@ -30,10 +30,28 @@ function authenticate (req, res, next) {
 function checkOwnership (req, res, next) {
 	if (req.cookies.email !== req.params.email) {
 		res.clearCookie('token');
+		res.status(403);
 		res.json({success: false, error: 'Authentication error!'});
 	} else {
 		next();
 	}
+}
+
+function checkExists (req, res, next) {
+	UserInfo.find({where: {email: req.params.email}}).then(userInfo => {
+		if (userInfo === null) {
+			errorMsg = 'No user info found for email: ' + req.params.email
+			console.log(errorMsg);
+			res.status(404);
+			res.json({success: false, error: errorMsg});
+		} else {
+			req.userInfo = userInfo;
+			next();
+		}
+	}).catch(err => {
+		console.log(err);
+		res.send(err);
+	})
 }
 
 router.get('/user_info', authenticate, (req, res) => {
@@ -41,6 +59,7 @@ router.get('/user_info', authenticate, (req, res) => {
 		res.json(results);
 	})
 	.catch(err => {
+		console.log(err);
 		res.end(err);
 	})
 })
@@ -49,39 +68,26 @@ router.post('/user_info', authenticate, (req, res) => {
 	UserInfo.create(req.body).then(() => {
 		res.json({success: true})
 	}).catch(err => {
+		console.log(err);
 		res.end(err);
 	})
 })
 
-router.get('/user_info/:email', authenticate, (req, res) => {
-	UserInfo.find({where: {email: req.params.email}})
-	.then(userInfo => {
-		res.json(userInfo);
+router.get('/user_info/:email', authenticate, checkExists, (req, res) => {
+	res.json(req.userInfo);
+})
+
+router.put('/user_info/:email', authenticate, checkOwnership, checkExists, (req, res) => {
+	req.userInfo.update(req.body).then(() => {
+		res.json({success: true});
 	}).catch(err => {
-		res.end(err);
+		res.send(err);
 	})
 })
 
-router.put('/user_info/:email', authenticate, checkOwnership, (req, res) => {
-	UserInfo.find({where: {email: req.params.email}})
-	.then(userInfo => {
-		userInfo.update(req.body);
+router.delete('/user_info/:email', authenticate, checkOwnership, checkExists, (req, res) => {
+	req.userInfo.destroy().then(() => {
 		res.json({success: true})
-	}).catch(err => {
-		res.end(err);
-	})
-})
-
-router.delete('/user_info/:email', authenticate, checkOwnership, (req, res) => {
-	UserInfo.find({where: {email: req.params.email}})
-	.then(userInfo => {
-		userInfo.destroy()
-		.then(() => {
-			res.json({success: true})
-		})
-		.catch(err => {
-			res.end(err);
-		})
 	}).catch(err => {
 		res.end(err);
 	})
