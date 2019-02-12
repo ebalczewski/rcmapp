@@ -3,27 +3,28 @@ const router = express.Router();
 var { User, UserInfo} = require("../models.js");
 
 function authenticate (req, res, next) {
-	next();
-	// if (req.cookies) {
-	// 	Token.findById(req.cookies.token)
-	// 	.then(row => {
-	// 		console.log(row.email, req.cookies.userEmail);
-	// 		const currentTime = new Date();
-	// 		if (currentTime < row.expiration && row.email === req.cookies.userEmail) {
-	// 			next();
-	// 		} else {
-	// 			res.clearCookie('token');
-	// 			res.redirect('/login');
-	// 		}
-	// 	})
-	// 	.catch(err => {
-	// 		console.log(err);
-	// 		res.clearCookie('token');
-	// 		res.redirect('/login');
-	// 	})
-	// } else {
-	// 	res.redirect('/login');
-	// }
+	if (req.cookies) {
+		User.findById(req.cookies.token).then(user => {
+			if (user !== null) {
+				const currentTime = new Date();
+				if (currentTime < user.expiration && user.email === req.cookies.email) {
+					next();
+				} else {
+					res.clearCookie('token');
+					res.redirect('/login');
+				}
+			} else {
+				res.clearCookie('token');
+				res.redirect('/login');
+			}
+		}).catch(err => {
+			console.log(err);
+			res.clearCookie('token');
+			res.redirect('/login');
+		})
+	} else {
+		res.redirect('/login');
+	}
 }
 
 router.get('/user_info', authenticate, (req, res) => {
