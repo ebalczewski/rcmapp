@@ -33,27 +33,29 @@ router.get('/authorize', (req, res) => {
     let accessToken = token.token.access_token;
     let client = hackerschool.client();
     client.setToken(token);
-    Token.findOrCreate({where: {token: accessToken}, defaults: {expiration: token.token.expires_at}})
-    
+
     client.people.me()
     .then(function(RCData) {
-      let userData = {
-        firstName: RCData.first_name,
-        lastName: RCData.last_name,
-        email: RCData.email,
-        batches: RCData.batches
-        .map(batch => batch.name)
-        .join('; '),
-      }
-      User.findOrCreate({where: {email: RCData.email}, defaults: userData})
-      .spread((user, created) => {
-        res.cookie('userId', user.id)
-        res.cookie('userEmail', userData.email);
-        res.cookie('firstName', userData.firstName);
-        res.cookie('lastName', userData.lastName);
-        res.cookie('batches', userData.batches);
-        res.cookie('token', accessToken);
-        res.redirect('/');
+      Token.findOrCreate({where: {token: accessToken}, defaults: {expiration: token.token.expires_at, email: RCData.email}})
+      .spread(() => {
+        let userData = {
+          firstName: RCData.first_name,
+          lastName: RCData.last_name,
+          email: RCData.email,
+          batches: RCData.batches
+          .map(batch => batch.name)
+          .join('; '),
+        }
+        User.findOrCreate({where: {email: RCData.email}, defaults: userData})
+        .spread((user, created) => {
+          res.cookie('userId', user.id)
+          res.cookie('userEmail', userData.email);
+          res.cookie('firstName', userData.firstName);
+          res.cookie('lastName', userData.lastName);
+          res.cookie('batches', userData.batches);
+          res.cookie('token', accessToken);
+          res.redirect('/');
+        })
       })
     })
   })
