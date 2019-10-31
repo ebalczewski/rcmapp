@@ -18,7 +18,7 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-places-autocomplete": "^7.2.0",
-    "sequelize": "^4.42.0",
+    "sequelize": "^5.15.1",
     "simple-oauth2": "^2.2.1",
     "sqlite3": "^4.0.4",
     "tls": "0.0.1"
