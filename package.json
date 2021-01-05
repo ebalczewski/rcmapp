@@ -4,7 +4,7 @@
   "description": "## Functionality",
   "main": "app.js",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
